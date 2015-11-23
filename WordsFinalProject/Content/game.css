@@ -1,0 +1,52 @@
+﻿/*    
+<!--Repository Name for source code on github: finalProject-- >
+    <!--Description: A game that allows to users practise with memorising English finalProject in different categories in a fun manner -- >
+    <!--Author Name: Liliya Artyukh -- >
+    <!--Creation Date: 06 - Nov - 2015 -- >
+    <!--Last Modified Date: 12 - Nov - 2015 -- >
+    <!--Last Modified by: Liliya Artyukh -- >
+    */
+
+
+    body {
+    background-color: grey;
+}
+
+
+#game {
+    width: 852px;
+    height: 504px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#gameTitle {
+    text-align: center;
+    font-size: 25px;
+    margin: 20px 0 20px 0;
+    color: white;
+}
+
+canvas {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    position: relative;
+}
+
+#instructions {
+padding: 50px;
+background-color: darkseagreen;
+border: solid 1px #000000;
+display: none;
+}
+
+#txtName {
+    position: absolute;
+    display: none;
+    top: 140px;
+    right: 290px;
+    z-index: 101;
+    width: 150px;
+    height: 20px;
+}

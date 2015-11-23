@@ -1,15 +1,64 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>TypeScript HTML App</title>
-    <link rel="stylesheet" href="app.css" type="text/css" />
-    <script src="app.js"></script>
-</head>
-<body>
-    <h1>TypeScript HTML App</h1>
+    <!-- Repository Name for source code on github: finalProject -->
+    <!-- Description: A game that allows to users practise with memorising English finalProject in different categories in a fun manner -->
+    <!-- Author Name: Liliya Artyukh -->
+    <!-- Creation Date: 06-Nov-2015 -->
+    <!-- Last Modified Date: 12-Nov-2015 -->
+    <!-- Last Modified by: Liliya Artyukh -->
 
-    <div id="content"></div>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0" />
+    <title>Words Game</title>
+
+    <!-- CSS SECTION -->
+    <link href="Content/reset.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="Content/game.css">
+
+</head>
+
+<body onload="preload();">
+
+    <h1 id="gameTitle">WORDS</h1>
+
+    <div id="game">
+        <canvas id="canvas" width="848" height="500"></canvas>
+        <input id="txtName" type="text" />
+    </div>
+
+
+    <!-- JavaScript SECTION -->
+    <script src="Scripts/jquery-2.1.4.min.js"></script>
+    <script src="Scripts/lib/Stats.js"></script>
+    <script src="Scripts/lib/easeljs-0.8.1.min.js"></script>
+    <script src="Scripts/lib/tweenjs-0.6.1.min.js"></script>
+    <script src="Scripts/lib/soundjs-0.6.1.min.js"></script>
+    <script src="Scripts/lib/preloadjs-0.6.1.min.js"></script>
+
+    <!-- Game Scripts SECTION -->
+    <script src="Scripts/utility/utility.js"></script>
+    <script src="Scripts/config/config.js"></script>
+    <script src="Scripts/managers/asset.js"></script>
+    <script src="Scripts/config/wordSets.js"></script>
+    <script src="Scripts/objects/background.js"></script>
+    <script src="Scripts/objects/truck.js"></script>
+    <script src="Scripts/objects/word.js"></script>
+    <script src="Scripts/objects/label.js"></script>
+    <script src="Scripts/objects/button.js"></script>
+    <script src="Scripts/objects/scene.js"></script>
+    <script src="Scripts/states/instructions.js"></script>
+    <script src="Scripts/states/start.js"></script>
+    <script src="Scripts/states/level1.js"></script>
+    <script src="Scripts/states/level2.js"></script>
+    <script src="Scripts/states/level3.js"></script>
+    <script src="Scripts/states/end.js"></script>
+    <script src="Scripts/states/score.js"></script>
+    <script src="Scripts/core/finalProject.js"></script>
+    <script src="Scripts/managers/collision.js"></script>
+    <script src="Scripts/objects/scoreboard.js"></script>
+
 </body>
+
 </html>
+

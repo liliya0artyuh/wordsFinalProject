@@ -23,12 +23,11 @@ var finalProject;
         //private method
         //callback function that allows to respond to start button click events
         Start.prototype._continueClicked = function (event) {
-            console.log("event.target " + event.target);
             createjs.Sound.play("soundtrack");
-            changeState(finalProject.INSTRUCTIONS_STATE);
+            changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL1_STATE);
         };
         //callback function that allows to respond to button click events
-        Start.prototype._menuClicked = function (event) {
+        Start.prototype._aboutClicked = function (event) {
             //check if lable is already displayed
             if (this._instructionsContainer.visible == true) {
                 this._instructionsContainer.visible = false;
@@ -58,7 +57,7 @@ var finalProject;
             this._aboutButton.setWidth(183);
             this._aboutButton.centerAlongX();
             this._aboutButton.name = "aboutBtn";
-            this._aboutButton.on("click", this._menuClicked, this);
+            this._aboutButton.on("click", this._aboutClicked, this);
             this.addChild(this._aboutButton);
             //add instruction container
             this._instructionsContainer = new createjs.Container;

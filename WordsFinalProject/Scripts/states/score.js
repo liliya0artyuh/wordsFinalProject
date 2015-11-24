@@ -12,43 +12,50 @@ var __extends = (this && this.__extends) || function (d, b) {
 var finalProject;
 (function (finalProject) {
     // menu class
-    var End = (function (_super) {
-        __extends(End, _super);
-        /*
-        _endLabel: finalProject.Label = new finalProject.Label("The End", "30px Consolas", "#ffffff", finalProject.centerX, 260, true);
-        _againButton: finalProject.Button = new finalProject.Button("againButton", finalProject.centerX-100, 360);
-        _nextLevelButton: finalProject.Button = new finalProject.Button("nextLevelButton", finalProject.centerX+100, 360);
-        _logo: createjs.Bitmap = new createjs.Bitmap(assets.loader.getResult("logo"));
-        _outcomeLabel: finalProject.Label = new finalProject.Label(this._outcomeText, "18px Consolas", "#ffffff", finalProject.centerX, 140, true);
-        _outcomeText: string ="hello world";
-        _arrayOutcome: Array<string>;
-        _won: boolean;
-        _finalScore: finalProject.Label = new finalProject.Label("collected words: " + numOfCollectedWords + "\n\nlost lives: " + numOfLivesLost, "20px Consolas", "#FFF000", finalProject.centerX, 200, true);
-        */
+    var Score = (function (_super) {
+        __extends(Score, _super);
         //constructor
-        function End(finalOutcome) {
+        function Score(finalOutcome) {
             _super.call(this);
+            this._outcomeText = "placeholder for outcome text";
         }
         //private method
         //callback function that allows to respond to button click events
-        End.prototype._againClicked = function (event) {
-            changeState(finalProject.START_STATE);
+        Score.prototype._againClicked = function (event) {
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL1_STATE);
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL2_STATE);
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL3_STATE);
+                    break;
+            }
         };
-        End.prototype._nextClicked = function (event) {
-            changeState(finalProject.START_STATE);
+        Score.prototype._nextClicked = function (event) {
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL2_STATE);
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL3_STATE);
+                    break;
+            }
+        };
+        Score.prototype._exitClicked = function (event) {
+            changeState(finalProject.START_STATE, 0);
+        };
+        Score.prototype._summaryClicked = function (event) {
+            changeState(finalProject.END_STATE, 0);
         };
         //public methods
-        End.prototype.start = function () {
-            this._endLabel = new finalProject.Label("The End", "30px Consolas", "#ffffff", finalProject.centerX, 260, false);
-            this._againButton = new finalProject.Button("againButton", finalProject.centerX - 100, 360);
-            this._nextLevelButton = new finalProject.Button("nextLevelButton", finalProject.centerX + 100, 360);
-            this._logo = new createjs.Bitmap(assets.loader.getResult("logo"));
-            this._outcomeLabel = new finalProject.Label(this._outcomeText, "18px Consolas", "#ffffff", finalProject.centerX, 140, false);
-            this._outcomeText = "hello world";
-            this._finalScore = new finalProject.Label("collected words: " + numOfCollectedWords + "\n\nlost lives: " + numOfLivesLost, "20px Consolas", "#FFF000", finalProject.centerX, 200, false);
+        Score.prototype.start = function () {
             this.addChild(background);
             scoreboard.reset();
             //add a logo
+            this._logo = new createjs.Bitmap(assets.loader.getResult("logo"));
             this._logo.x = finalProject.centerX - (146 * 0.5); //position logo in the center of x axis
             this._logo.y = 30; //position logo at 30 below top (alog y axis)
             this.addChild(this._logo);
@@ -60,27 +67,60 @@ var finalProject;
                 this._outcomeText = "Good try! Study the words and play the game again.";
             }
             // add outcome label to the scene
+            this._outcomeLabel = new finalProject.Label(this._outcomeText, "18px Consolas", "#ffffff", finalProject.centerX, 140, true);
             this.addChild(this._outcomeLabel);
             //add final score label
+            this._finalScore = new finalProject.Label("collected words: " + numOfCollectedWords + "\n\nlost lives: " + numOfLivesLost, "20px Consolas", "#FFF000", finalProject.centerX, 200, true);
             this.addChild(this._finalScore);
             //add end label
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    this._endLabelText = "You have completed LEVEL 1 - Click The Word";
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this._endLabelText = "You have completed LEVEL 2 - Shoot The Word";
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    this._endLabelText = "You have completed LEVEL 3 - Drag The Word";
+                    break;
+            }
+            this._endLabel = new finalProject.Label(this._endLabelText, "30px Consolas", "#ffffff", finalProject.centerX, 260, true);
             this.addChild(this._endLabel);
             //  add a start button
-            this._againButton.setWidth(206);
-            this._againButton.centerAlongX();
+            this._againButton = new finalProject.Button("againButton", 67, 360);
+            //this._againButton.setWidth(206);
+            //this._againButton.centerAlongX();
             this.addChild(this._againButton);
             this._againButton.on("click", this._againClicked, this);
-            //add next level button
-            this._nextLevelButton.setWidth(206);
-            this._nextLevelButton.centerAlongX();
-            this.addChild(this._nextLevelButton);
+            if (currentLevel == finalProject.LEVEL1_STATE || currentLevel == finalProject.LEVEL2_STATE) {
+                //add next level button
+                this._nextLevelButton = new finalProject.Button("nextLevelButton", 323, 360);
+                //this._nextLevelButton.setWidth(206);
+                //this._nextLevelButton.centerAlongX();
+                this.addChild(this._nextLevelButton);
+                this._nextLevelButton.on("click", this._nextClicked, this);
+            }
+            else {
+                //add summary  button
+                this._summaryButton = new finalProject.Button("summaryButton", 323, 360);
+                //this._summaryButton.setWidth(206);
+                //this._summaryButton.centerAlongX();
+                this.addChild(this._summaryButton);
+                this._summaryButton.on("click", this._summaryClicked, this);
+            }
+            //add exit button
+            this._exitButton = new finalProject.Button("exitButton", 579, 360);
+            //this._exitButton.setWidth(206);
+            //this._exitButton.centerAlongX();
+            this.addChild(this._exitButton);
+            this._exitButton.on("click", this._exitClicked, this);
             //add everythng to stage
             stage.addChild(this);
         };
-        End.prototype.update = function () {
+        Score.prototype.update = function () {
         };
-        return End;
+        return Score;
     })(finalProject.Scene);
-    finalProject.End = End;
+    finalProject.Score = Score;
 })(finalProject || (finalProject = {}));
 //# sourceMappingURL=score.js.map

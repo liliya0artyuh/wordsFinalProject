@@ -17,6 +17,8 @@ var finalProject;
                 { id: "truck", src: "../../Assets/images/truck.png" },
                 { id: "categoryButton", src: "../../Assets/images/categoryButton.png" },
                 { id: "startButton", src: "../../Assets/images/startButton.png" },
+                { id: "exitButton", src: "../../Assets/images/exitButton.png" },
+                { id: "summaryButton", src: "../../Assets/images/summaryButton.png" },
                 { id: "nextLevelButton", src: "../../Assets/images/nextLevelButton.png" },
                 { id: "continueButton", src: "../../Assets/images/continueButton.png" },
                 { id: "aboutButton", src: "../../Assets/images/about.png" },

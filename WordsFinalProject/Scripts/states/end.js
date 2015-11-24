@@ -6,14 +6,14 @@ var __extends = (this && this.__extends) || function (d, b) {
 var finalProject;
 (function (finalProject) {
     //class instructions ++++++++++++++++++++++++++++++++++++++++++++
-    var Score = (function (_super) {
-        __extends(Score, _super);
+    var End = (function (_super) {
+        __extends(End, _super);
         //constructions +++++++++++++++++++++++++++++++++++++++++++++++++++
-        function Score() {
+        function End() {
             _super.call(this);
         }
-        return Score;
+        return End;
     })(finalProject.Scene);
-    finalProject.Score = Score;
+    finalProject.End = End;
 })(finalProject || (finalProject = {}));
 //# sourceMappingURL=end.js.map

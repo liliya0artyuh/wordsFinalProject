@@ -57,9 +57,10 @@ var name: string;
 var outcome: number=0;
 var wordCategory: string;
 var background: finalProject.Background;
-var numOfCollectedWords: number = 0;
-var numOfLivesLost: number = 0;
+var numOfCollectedWords: Array<number> = new Array<number>();
+var numOfLivesLost: Array<number> = new Array<number>();
 var tickCounter: number;
+var currentLevel: number;
 
 
 //Game managers
@@ -88,7 +89,7 @@ function init(): void {
     setupStats();// setup statistics object
 
     state = finalProject.START_STATE;
-    changeState(state);
+    changeState(state, 0);
 }
 
 // Main Game Loop
@@ -121,7 +122,7 @@ function setupStats(): void {
 
 
 // state machine
-function changeState(state): void {
+function changeState(state, level: number): void {
     //lauch various scenes
 
     switch (state) {
@@ -130,21 +131,43 @@ function changeState(state): void {
             startFinalProject = new finalProject.Start();
             currentState = startFinalProject;
             break;
+
+        case finalProject.SCORE_STATE:
+            stage.removeAllChildren();
+            scoreFinalProject = new finalProject.Score(outcome);
+            currentState = scoreFinalProject;
+            break;
+
+        case finalProject.INSTRUCTIONS_STATE:
+            stage.removeAllChildren();
+            instructionFinalProject = new finalProject.Instructions();
+            currentState = instructionFinalProject;
+            currentLevel = level;
+  break;
+
         case finalProject.LEVEL1_STATE:
             stage.removeAllChildren();
             level1FinalProject = new finalProject.Level1();
             currentState = level1FinalProject;
+
+            break;
+
+        case finalProject.LEVEL2_STATE:
+            stage.removeAllChildren();
+            level2FinalProject = new finalProject.Level2();
+            currentState = level2FinalProject;
+            break;
+
+        case finalProject.LEVEL3_STATE:
+            stage.removeAllChildren();
+            level3FinalProject = new finalProject.Level3();
+            currentState = level3FinalProject;
             break;
 
         case finalProject.END_STATE:
             stage.removeAllChildren();
-            endFinalProject = new finalProject.End(outcome);
+            endFinalProject = new finalProject.End();
             currentState = endFinalProject;
-            break;
-        case finalProject.INSTRUCTIONS_STATE: 
-            stage.removeAllChildren();
-            instructionFinalProject = new finalProject.Instructions();
-            currentState = instructionFinalProject;
             break;
     }
     currentState.start();

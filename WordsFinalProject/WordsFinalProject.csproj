@@ -23,6 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="Assets\audio\oh.m4a" />
+    <Content Include="Assets\audio\oh.wav" />
+    <Content Include="Assets\audio\wellDone.m4a" />
+    <Content Include="Assets\audio\wellDone.wav" />
     <Content Include="Assets\images\about.png" />
     <Content Include="Assets\images\againButton.png" />
     <Content Include="Assets\images\back1.PNG" />
@@ -30,15 +34,20 @@
     <Content Include="Assets\images\button183x82.png" />
     <Content Include="Assets\images\categoryButton.PNG" />
     <Content Include="Assets\images\continueButton.png" />
+    <Content Include="Assets\images\exitButton.png" />
     <Content Include="Assets\images\logo.PNG" />
     <Content Include="Assets\images\nextLevelButton.png" />
     <Content Include="Assets\images\rules.png" />
     <Content Include="Assets\images\saveButton.png" />
     <Content Include="Assets\images\startButton.PNG" />
+    <Content Include="Assets\images\summaryButton.png" />
     <Content Include="Assets\images\truck.PNG" />
     <Content Include="Content\game.css" />
     <Content Include="Content\reset.css" />
     <Content Include="index.html" />
+    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\lib\easeljs-0.8.1.min.js" />
     <Content Include="Scripts\lib\preloadjs-0.6.1.min.js" />
     <Content Include="Scripts\lib\soundjs-0.6.1.min.js" />
@@ -84,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

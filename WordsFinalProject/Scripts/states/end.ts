@@ -1,6 +1,6 @@
 ﻿module finalProject {
     //class instructions ++++++++++++++++++++++++++++++++++++++++++++
-    export class Score extends finalProject.Scene {
+    export class End extends finalProject.Scene {
 
         //constructions +++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {

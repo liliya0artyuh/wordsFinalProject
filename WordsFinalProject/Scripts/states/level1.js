@@ -103,25 +103,28 @@ var finalProject;
             }
         };
         Level1.prototype.update = function () {
+            //update position
             this._truck.update();
             this._word.update();
             for (var antiWord = 0; antiWord < finalProject.numOfAntiWords; antiWord++) {
                 this._antiWords[antiWord].update();
                 collision.check(this._antiWords[antiWord], this._truck);
             }
+            //check for collision
             collision.check(this._word, this._truck);
-            scoreboard.update();
+            scoreboard.update(); // update score
+            //exit logic
             if (scoreboard.lives <= 0) {
                 outcome = 2;
-                numOfCollectedWords = scoreboard.score / 100;
-                numOfLivesLost = 3;
-                changeState(finalProject.END_STATE);
+                numOfCollectedWords[0] = scoreboard.score / 100;
+                numOfLivesLost[0] = 3;
+                changeState(finalProject.SCORE_STATE, 0);
             }
             if (scoreboard.score == 1000) {
                 outcome = 1;
-                numOfCollectedWords = 10;
-                numOfLivesLost = 3 - scoreboard.lives;
-                changeState(finalProject.END_STATE);
+                numOfCollectedWords[0] = 10;
+                numOfLivesLost[0] = 3 - scoreboard.lives;
+                changeState(finalProject.SCORE_STATE, 0);
             }
         };
         return Level1;

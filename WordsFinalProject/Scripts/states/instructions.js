@@ -30,14 +30,8 @@ var finalProject;
             this._rulesButton = new finalProject.Button("rulesButton", finalProject.centerX, 50);
             this._rect = new createjs.Shape;
             this._instructionsVisible = false;
-            this._rulesText = "1. Select word category to practise. \n\n2. Move mouse up and down to control collector rectangle. \n\n3. Collect 10 finalProject from selected category to win. \n\n4. Collecting 3 wrong finalProject lead to a loss.";
+            this._rulesText = "placeholder";
         }
-        Instructions.prototype.setRulesText = function (rules) {
-            this._rulesText = rules;
-        };
-        Instructions.prototype.getRulesText = function () {
-            return this._rulesText;
-        };
         //private method
         //callback function that allows to respond to start button click events
         Instructions.prototype._playClicked = function (event) {
@@ -52,7 +46,7 @@ var finalProject;
             if (this._isCategorySelected) {
                 document.getElementById("txtName").style.display = "none";
                 this.removeAllChildren();
-                changeState(finalProject.LEVEL1_STATE);
+                changeState(finalProject.LEVEL1_STATE, 0);
                 console.log("category was selected");
             }
             else {
@@ -106,6 +100,24 @@ var finalProject;
         };
         //public methods
         Instructions.prototype.start = function () {
+            if (currentLevel == finalProject.LEVEL1_STATE) {
+                this._rulesText = "level 1\n\n1. Select word category to practise. \n\n" +
+                    "2. Move mouse up and down to control collector rectangle.\n\n" +
+                    "3.Collect 10 finalProject from selected category to win.\n\n" +
+                    "4.Collecting 3 wrong finalProject lead to a loss.";
+            }
+            else if (currentLevel == finalProject.LEVEL2_STATE) {
+                this._rulesText = "level 2\n\n1. Select word category to practise. \n\n" +
+                    "2. Move mouse up and down to control collector rectangle.\n\n" +
+                    "3.Collect 10 finalProject from selected category to win.\n\n" +
+                    "4.Collecting 3 wrong finalProject lead to a loss.";
+            }
+            else if (currentLevel == finalProject.LEVEL3_STATE) {
+                this._rulesText = "level 3\n\n1. Select word category to practise. \n\n" +
+                    "2. Move mouse up and down to control collector rectangle.\n\n" +
+                    "3.Collect 10 finalProject from selected category to win.\n\n" +
+                    "4.Collecting 3 wrong finalProject lead to a loss.";
+            }
             //set boolean value for category selected control to false
             this._isCategorySelected = false;
             //add background to the scene

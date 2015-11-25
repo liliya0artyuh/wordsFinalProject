@@ -120,9 +120,9 @@ var finalProject;
                 numOfLivesLost[0] = 3;
                 changeState(finalProject.SCORE_STATE, 0);
             }
-            if (scoreboard.score == 1000) {
+            if (scoreboard.score == finalProject.winningNumber) {
                 outcome = 1;
-                numOfCollectedWords[0] = 10;
+                numOfCollectedWords[0] = finalProject.winningNumber / 100;
                 numOfLivesLost[0] = 3 - scoreboard.lives;
                 changeState(finalProject.SCORE_STATE, 0);
             }

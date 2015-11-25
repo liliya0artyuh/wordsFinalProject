@@ -77,7 +77,7 @@ module finalProject {
 
             //check the outcome
             if (outcome == 1) {
-                this._outcomeText = "Well Done! You have collected 10 words from the selected category";
+                this._outcomeText = "Well Done! You have collected " + winningNumber / 100 +" words from the selected category";
             }
             if (outcome == 2) {
                 this._outcomeText = "Good try! Study the words and play the game again.";

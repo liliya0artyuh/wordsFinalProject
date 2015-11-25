@@ -15,6 +15,11 @@ module finalProject {
     export var LEVEL1_STATE: number = 4;
     export var LEVEL2_STATE: number = 5;
     export var LEVEL3_STATE: number = 6;
+
+    //
+    export var winningNumber = 300;
+
+
     export var numOfAntiWords: number = 3;
     export var centerX: number = 424;
     export var collectorWidth: number = 227;

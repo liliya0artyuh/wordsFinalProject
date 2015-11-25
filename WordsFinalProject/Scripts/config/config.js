@@ -14,6 +14,8 @@ var finalProject;
     finalProject.LEVEL1_STATE = 4;
     finalProject.LEVEL2_STATE = 5;
     finalProject.LEVEL3_STATE = 6;
+    //
+    finalProject.winningNumber = 300;
     finalProject.numOfAntiWords = 3;
     finalProject.centerX = 424;
     finalProject.collectorWidth = 227;

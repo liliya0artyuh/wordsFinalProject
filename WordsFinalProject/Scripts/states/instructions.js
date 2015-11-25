@@ -12,7 +12,6 @@ var finalProject;
         function Instructions() {
             _super.call(this);
             this._startButton = new finalProject.Button("startButton", finalProject.centerX, 390);
-            this._nameLabel = new finalProject.Label("What's your name?", "20px Consolas", "#FFF000", 206, 140, false);
             this._selectCategoryLabel = new finalProject.Label("Select Category:", "20px Consolas", "#FFF000", 206, 175, false);
             this._foodBtn = new finalProject.Button("categoryButton", 206, 205);
             this._furnitureBtn = new finalProject.Button("categoryButton", 456, 205);
@@ -38,29 +37,41 @@ var finalProject;
         Instructions.prototype._playClicked = function (event) {
             console.log("event.target " + event.target);
             createjs.Sound.play("soundtrack");
-            //get the name of user
-            name = document.getElementById("txtName").value;
-            if (name == null || name == "") {
-                name = "YOU";
-            }
-            console.log("check name after button is clicked " + name);
-            if (this._isCategorySelected) {
-                document.getElementById("txtName").style.display = "none";
-                this.removeAllChildren();
-                changeState(finalProject.LEVEL1_STATE, 0);
-                console.log("category was selected");
-            }
-            else {
-                //display message to select a category
-                console.log("didn't recognize that category was selected");
-                //add instruction container
-                this._isAlertOn = true;
-                this._isAlertDisplayed = true;
-                tickCounter = 0;
-                this._lowerTickBoundary = 0;
-                this._higherTickBoundary = 50;
-                this.addChild(this._alertLable);
-                this._alertContainer.visible = true;
+            if (currentLevel == finalProject.LEVEL1_STATE || currentLevel == finalProject.LEVEL2_STATE) {
+                if (currentLevel == finalProject.LEVEL1_STATE) {
+                    //get the name of user
+                    name = document.getElementById("txtName").value;
+                    if (name == null || name == "") {
+                        name = "YOU";
+                    }
+                }
+                console.log("check name after button is clicked " + name);
+                if (this._isCategorySelected) {
+                    document.getElementById("txtName").style.display = "none";
+                    this.removeAllChildren();
+                    if (currentLevel == finalProject.LEVEL1_STATE) {
+                        changeState(finalProject.LEVEL2_STATE, 0);
+                    }
+                    else if (currentLevel == finalProject.LEVEL2_STATE) {
+                        changeState(finalProject.LEVEL3_STATE, 0);
+                    }
+                    else {
+                        changeState(finalProject.LEVEL1_STATE, 0);
+                    }
+                    console.log("category was selected");
+                }
+                else {
+                    //display message to select a category
+                    console.log("didn't recognize that category was selected");
+                    //add instruction container
+                    this._isAlertOn = true;
+                    this._isAlertDisplayed = true;
+                    tickCounter = 0;
+                    this._lowerTickBoundary = 0;
+                    this._higherTickBoundary = 50;
+                    this.addChild(this._alertLable);
+                    this._alertContainer.visible = true;
+                }
             }
         };
         //callback function that allows to respond to button click events
@@ -103,36 +114,18 @@ var finalProject;
         };
         //public methods
         Instructions.prototype.start = function () {
-            if (currentLevel == finalProject.LEVEL1_STATE) {
-                this._rulesText = "level 1\n\n1. Select word category to practise. \n\n" +
-                    "2. Move mouse up and down to control collector rectangle.\n\n" +
-                    "3.Collect 10 finalProject from selected category to win.\n\n" +
-                    "4.Collecting 3 wrong finalProject lead to a loss.";
-            }
-            else if (currentLevel == finalProject.LEVEL2_STATE) {
-                this._rulesText = "level 2\n\n1. Select word category to practise. \n\n" +
-                    "2. Move mouse up and down to control collector rectangle.\n\n" +
-                    "3.Collect 10 finalProject from selected category to win.\n\n" +
-                    "4.Collecting 3 wrong finalProject lead to a loss.";
-            }
-            else if (currentLevel == finalProject.LEVEL3_STATE) {
-                this._rulesText = "level 3\n\n1. Select word category to practise. \n\n" +
-                    "2. Move mouse up and down to control collector rectangle.\n\n" +
-                    "3.Collect 10 finalProject from selected category to win.\n\n" +
-                    "4.Collecting 3 wrong finalProject lead to a loss.";
-            }
             //set boolean value for category selected control to false
             this._isCategorySelected = false;
             //add background to the scene
             this.addChild(background);
+            //display categories
+            this._getDetails();
             //add buttons for about and rules
             this._rulesButton.setWidth(183);
             this._rulesButton.centerAlongX();
             this._rulesButton.name = "rulesBtn";
             this._rulesButton.on("click", this._rulesClicked, this);
             this.addChild(this._rulesButton);
-            //display categories
-            this._getDetails();
             //add instruction container
             this._instructionsContainer.x = 24;
             this._instructionsContainer.y = 150;
@@ -150,11 +143,6 @@ var finalProject;
             stage.addChild(this);
         };
         Instructions.prototype._getDetails = function () {
-            //add name label to scene
-            this.addChild(this._nameLabel);
-            //add name text box to the scene
-            document.getElementById("txtName").style.display = "inline";
-            console.log("check name " + name);
             // add lable for Select Category to the scene
             this.addChild(this._selectCategoryLabel);
             //add category buttons and their labels
@@ -165,7 +153,6 @@ var finalProject;
             this._foodBtn.setWidth(190);
             this._foodBtn.name = "foodBtn";
             this.addChild(this._foodBtn);
-            this._foodBtn.on("click", this._categoryClicked, this);
             this.addChild(this._foodLabel);
             // add category button for furniture
             this._furnitureBtn.setIsCategory(true);
@@ -174,7 +161,6 @@ var finalProject;
             this._furnitureBtn.setWidth(190);
             this._furnitureBtn.name = "furnitureBtn";
             this.addChild(this._furnitureBtn);
-            this._furnitureBtn.on("click", this._categoryClicked, this);
             this.addChild(this._furnitureLabel);
             // add category button for clothes
             this._clothesBtn.setIsCategory(true);
@@ -183,7 +169,6 @@ var finalProject;
             this._clothesBtn.setWidth(190);
             this._clothesBtn.name = "clothesBtn";
             this.addChild(this._clothesBtn);
-            this._clothesBtn.on("click", this._categoryClicked, this);
             this.addChild(this._clothesLabel);
             // add category button for animals
             this._animalsBtn.setIsCategory(true);
@@ -192,10 +177,55 @@ var finalProject;
             this._animalsBtn.setWidth(190);
             this._animalsBtn.name = "animalsBtn";
             this.addChild(this._animalsBtn);
-            this._animalsBtn.on("click", this._categoryClicked, this);
             this.addChild(this._animalsLabel);
+            if (currentLevel == finalProject.LEVEL1_STATE) {
+                this._rulesText = "level 1\n\n1. Select word category to practise. \n\n" +
+                    "2. Move mouse up and down to control collector rectangle.\n\n" +
+                    "3.Collect 10 finalProject from selected category to win.\n\n" +
+                    "4.Collecting 3 wrong finalProject lead to a loss.";
+                //add name label and text box to the scene
+                this._nameLabel = new finalProject.Label("What's your name?", "20px Consolas", "#FFF000", 206, 140, false);
+                //add name label to scene
+                this.addChild(this._nameLabel);
+                document.getElementById("txtName").style.display = "inline";
+                console.log("check name " + name);
+                this._setUpLevel1And2();
+            }
+            else if (currentLevel == finalProject.LEVEL2_STATE) {
+                this._rulesText = "level 2\n\n1. Select word category to practise. \n\n" +
+                    "2. Move mouse up and down to control collector rectangle.\n\n" +
+                    "3.Collect 10 finalProject from selected category to win.\n\n" +
+                    "4.Collecting 3 wrong finalProject lead to a loss.";
+                this._setUpLevel1And2();
+            }
+            else if (currentLevel == finalProject.LEVEL3_STATE) {
+                this._rulesText = "level 3\n\n1. Select word category to practise. \n\n" +
+                    "2. Move mouse up and down to control collector rectangle.\n\n" +
+                    "3.Collect 10 finalProject from selected category to win.\n\n" +
+                    "4.Collecting 3 wrong finalProject lead to a loss.";
+                this._setUpLevel3();
+            }
             //add this scene to the stage
             stage.addChild(this);
+        };
+        Instructions.prototype._setUpLevel1And2 = function () {
+            //add event listeners to category buttons
+            this._foodBtn.on("click", this._categoryClicked, this);
+            this._furnitureBtn.on("click", this._categoryClicked, this);
+            this._clothesBtn.on("click", this._categoryClicked, this);
+            this._animalsBtn.on("click", this._categoryClicked, this);
+        };
+        Instructions.prototype._setUpLevel3 = function () {
+            //set all category buttons to disabled and alpha 1.0 - selected
+            this._clothesBtn.setIsDisabled(true);
+            this._foodBtn.setIsDisabled(true);
+            this._furnitureBtn.setIsDisabled(true);
+            this._animalsBtn.setIsDisabled(true);
+            this._clothesBtn.alpha = 1.0;
+            this._foodBtn.alpha = 1.0;
+            this._furnitureBtn.alpha = 1.0;
+            this._animalsBtn.alpha = 1.0;
+            this._selectCategoryLabel.text = "All categories are selected for this level";
         };
         Instructions.prototype.update = function () {
             //make label flicker

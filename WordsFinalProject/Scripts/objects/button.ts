@@ -75,18 +75,22 @@ module finalProject {
         //callback function that change the apha transparency of the button
         //mousover event
         buttonOver(event: createjs.MouseEvent): void {
-            if ((this._isCategory && this._isSelected==false) || (this._isDisabled == false)) {
+            if (this._isDisabled == true) {
+            }
+            else if (this._isCategory && this._isSelected == false) {
                 event.currentTarget.alpha = 1.0;
-            } else {
+            } else{
                 event.currentTarget.alpha = 0.5;
             }
         }
 
         //mouseout event
         buttonOut(event: createjs.MouseEvent): void {
-            if ((this._isCategory && this._isSelected == false) || (this._isDisabled == true)) {
+            if (this._isDisabled == true) {
+     
+            } else if (this._isCategory && this._isSelected == false) {
                 event.currentTarget.alpha = 0.5;
-            } else {
+            }else{
                 event.currentTarget.alpha = 1.0;
             }
         }

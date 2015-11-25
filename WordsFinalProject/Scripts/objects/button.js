@@ -62,7 +62,9 @@ var finalProject;
         //callback function that change the apha transparency of the button
         //mousover event
         Button.prototype.buttonOver = function (event) {
-            if ((this._isCategory && this._isSelected == false) || (this._isDisabled == false)) {
+            if (this._isDisabled == true) {
+            }
+            else if (this._isCategory && this._isSelected == false) {
                 event.currentTarget.alpha = 1.0;
             }
             else {
@@ -71,7 +73,9 @@ var finalProject;
         };
         //mouseout event
         Button.prototype.buttonOut = function (event) {
-            if ((this._isCategory && this._isSelected == false) || (this._isDisabled == true)) {
+            if (this._isDisabled == true) {
+            }
+            else if (this._isCategory && this._isSelected == false) {
                 event.currentTarget.alpha = 0.5;
             }
             else {

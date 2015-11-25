@@ -85,13 +85,13 @@ module finalProject {
               //add end label
            switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
-                    this._endLabelText = "You have completed LEVEL 1 - Click The Word";
+                    this._endLabelText = "End of LEVEL 1 - Click The Word";
                     break;
                 case finalProject.LEVEL2_STATE:
-                   this._endLabelText = "You have completed LEVEL 2 - Shoot The Word";
+                   this._endLabelText = "End of LEVEL 2 - Shoot The Word";
                     break;
                 case finalProject.LEVEL3_STATE:
-                   this._endLabelText = "You have completed LEVEL 3 - Drag The Word";
+                   this._endLabelText = "End of LEVEL 3 - Drag The Word";
                     break;
             }
            this._endLabel = new finalProject.Label(this._endLabelText, "30px Consolas", "#ffffff", finalProject.centerX, 260, true);

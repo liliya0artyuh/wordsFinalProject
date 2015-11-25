@@ -24,13 +24,14 @@ var finalProject;
             this._animalsLabel = new finalProject.Label("ANIMALS", "30px Consolas", "#000000", 551, 315, true);
             this._alertContainer = new createjs.Container;
             this._instructionsContainer = new createjs.Container;
-            this._alertLable = new finalProject.Label("Please select a category", "20px Consolas", "#000000", 20, 20, false);
+            this._alertLable = new finalProject.Label("Please select a category!", "20px Consolas", "#FF0000", finalProject.centerX, 370, true);
             this._isAlertOn = false;
             this._instructionsLable = new finalProject.Label("placeholder text", "20px Consolas", "#000000", 20, 20, false);
             this._rulesButton = new finalProject.Button("rulesButton", finalProject.centerX, 50);
             this._rect = new createjs.Shape;
             this._instructionsVisible = false;
             this._rulesText = "placeholder";
+            this._isAlertDisplayed = false;
         }
         //private method
         //callback function that allows to respond to start button click events
@@ -54,12 +55,11 @@ var finalProject;
                 console.log("didn't recognize that category was selected");
                 //add instruction container
                 this._isAlertOn = true;
-                this._alertContainer.x = 400;
-                this._alertContainer.y = 400;
-                this._rect.graphics.beginFill("red").drawRect(0, 0, 50, 5);
-                this._alertContainer.addChild(this._rect);
-                this._alertContainer.addChild(this._alertLable);
-                this.addChild(this._alertContainer);
+                this._isAlertDisplayed = true;
+                tickCounter = 0;
+                this._lowerTickBoundary = 0;
+                this._higherTickBoundary = 50;
+                this.addChild(this._alertLable);
                 this._alertContainer.visible = true;
             }
         };
@@ -78,6 +78,9 @@ var finalProject;
             //read selected category and assing to a variable
             wordCategory = event.target.name;
             console.log(wordCategory);
+            //disable alert for not selecting a category
+            this._isAlertOn = false;
+            this._alertLable.text = " ";
             this._isCategorySelected = true;
             //reset category values to show no category is selected
             this._resetCategoryButtons();
@@ -196,23 +199,20 @@ var finalProject;
         };
         Instructions.prototype.update = function () {
             //make label flicker
-            /*
             console.log(tickCounter);
-            if (!this._isDisplayed && (tickCounter >= this._lowerTickBoundary && tickCounter <= this._higherTickBoundary)) {
-                this._helloLabel.text = "Do you want to play? Hit Start button!";
-                if (tickCounter == this._higherTickBoundary) {
-                    this._isDisplayed = true;
-                    this._lowerTickBoundary += 100;
-                    this._higherTickBoundary += 100;
-                }
-            } else {
-                this._isa = false;
-            }
-
-            */
             if (this._isAlertOn) {
-                this._alertContainer.visible = false;
-                this._alertContainer.visible = true;
+                if (!this._isAlertDisplayed && (tickCounter >= this._lowerTickBoundary && tickCounter <= this._higherTickBoundary)) {
+                    this._alertLable.text = "Please select a category!";
+                    if (tickCounter == this._higherTickBoundary) {
+                        this._isAlertDisplayed = true;
+                        this._lowerTickBoundary += 100;
+                        this._higherTickBoundary += 100;
+                    }
+                }
+                else {
+                    this._alertLable.text = " ";
+                    this._isAlertDisplayed = false;
+                }
             }
         };
         return Instructions;

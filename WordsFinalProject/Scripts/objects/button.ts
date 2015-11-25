@@ -12,6 +12,7 @@ module finalProject {
         _height: number;
         _isCategory: boolean;
         _isSelected: boolean;
+        _isDisabled: boolean;
         //constructor
         constructor(pathString: string, x: number, y: number) {
             super(assets.loader.getResult(pathString));
@@ -48,6 +49,14 @@ module finalProject {
             this._isSelected = isSelected;
         }
 
+        public getIsDisabled(): boolean {
+            return this._isDisabled;
+        }
+
+        public setIsDisabled(isDisabled: boolean): void {
+            this._isDisabled = isDisabled;
+        }
+
         public getHeight(): number {
             return this._height;
         }
@@ -66,16 +75,16 @@ module finalProject {
         //callback function that change the apha transparency of the button
         //mousover event
         buttonOver(event: createjs.MouseEvent): void {
-            if (this._isCategory && this._isSelected==false) {
+            if ((this._isCategory && this._isSelected==false) || (this._isDisabled == false)) {
                 event.currentTarget.alpha = 1.0;
             } else {
-                event.currentTarget.alpha = 0.8;
+                event.currentTarget.alpha = 0.5;
             }
         }
 
         //mouseout event
         buttonOut(event: createjs.MouseEvent): void {
-            if (this._isCategory && this._isSelected == false) {
+            if ((this._isCategory && this._isSelected == false) || (this._isDisabled == true)) {
                 event.currentTarget.alpha = 0.5;
             } else {
                 event.currentTarget.alpha = 1.0;

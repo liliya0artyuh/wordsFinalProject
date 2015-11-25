@@ -40,6 +40,12 @@ var finalProject;
         Button.prototype.setIsSelected = function (isSelected) {
             this._isSelected = isSelected;
         };
+        Button.prototype.getIsDisabled = function () {
+            return this._isDisabled;
+        };
+        Button.prototype.setIsDisabled = function (isDisabled) {
+            this._isDisabled = isDisabled;
+        };
         Button.prototype.getHeight = function () {
             return this._height;
         };
@@ -56,16 +62,16 @@ var finalProject;
         //callback function that change the apha transparency of the button
         //mousover event
         Button.prototype.buttonOver = function (event) {
-            if (this._isCategory && this._isSelected == false) {
+            if ((this._isCategory && this._isSelected == false) || (this._isDisabled == false)) {
                 event.currentTarget.alpha = 1.0;
             }
             else {
-                event.currentTarget.alpha = 0.8;
+                event.currentTarget.alpha = 0.5;
             }
         };
         //mouseout event
         Button.prototype.buttonOut = function (event) {
-            if (this._isCategory && this._isSelected == false) {
+            if ((this._isCategory && this._isSelected == false) || (this._isDisabled == true)) {
                 event.currentTarget.alpha = 0.5;
             }
             else {

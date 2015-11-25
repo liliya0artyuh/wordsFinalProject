@@ -59,16 +59,6 @@ var finalProject;
             this._logo.x = finalProject.centerX - (146 * 0.5); //position logo in the center of x axis
             this._logo.y = 30; //position logo at 30 below top (alog y axis)
             this.addChild(this._logo);
-            //check the outcome
-            if (outcome == 1) {
-                this._outcomeText = "Well Done! You have collected " + finalProject.winningNumber / 100 + " words from the selected category";
-            }
-            if (outcome == 2) {
-                this._outcomeText = "Good try! Study the words and play the game again.";
-            }
-            // add outcome label to the scene
-            this._outcomeLabel = new finalProject.Label(this._outcomeText, "18px Consolas", "#ffffff", finalProject.centerX, 140, true);
-            this.addChild(this._outcomeLabel);
             //add final score label
             this._finalScore = new finalProject.Label("collected words: " + numOfCollectedWords + "\n\nlost lives: " + numOfLivesLost, "20px Consolas", "#FFF000", finalProject.centerX, 200, true);
             this.addChild(this._finalScore);
@@ -98,7 +88,6 @@ var finalProject;
                 //this._nextLevelButton.setWidth(206);
                 //this._nextLevelButton.centerAlongX();
                 this.addChild(this._nextLevelButton);
-                this._nextLevelButton.on("click", this._nextClicked, this);
             }
             else {
                 //add summary  button
@@ -114,6 +103,19 @@ var finalProject;
             //this._exitButton.centerAlongX();
             this.addChild(this._exitButton);
             this._exitButton.on("click", this._exitClicked, this);
+            //check the outcome
+            if (outcome == 1) {
+                this._outcomeText = "Well Done! You have collected " + finalProject.winningNumber / 100 + " words from the selected category";
+                this._nextLevelButton.on("click", this._nextClicked, this);
+            }
+            if (outcome == 2) {
+                this._outcomeText = "Good try! Study the words and play the game again.";
+                this._nextLevelButton.alpha = 0.5;
+                this._nextLevelButton.setIsDisabled(true);
+            }
+            // add outcome label to the scene
+            this._outcomeLabel = new finalProject.Label(this._outcomeText, "18px Consolas", "#ffffff", finalProject.centerX, 140, true);
+            this.addChild(this._outcomeLabel);
             //add everythng to stage
             stage.addChild(this);
         };

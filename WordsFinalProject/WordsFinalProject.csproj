@@ -61,6 +61,7 @@
     <TypeScriptCompile Include="Scripts\config\config.ts" />
     <TypeScriptCompile Include="Scripts\config\wordSets.ts" />
     <TypeScriptCompile Include="Scripts\core\finalProject.ts" />
+    <TypeScriptCompile Include="Scripts\core\_reference.ts" />
     <TypeScriptCompile Include="Scripts\managers\asset.ts" />
     <TypeScriptCompile Include="Scripts\managers\collision.ts" />
     <TypeScriptCompile Include="Scripts\objects\background.ts" />

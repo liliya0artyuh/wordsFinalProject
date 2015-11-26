@@ -2,33 +2,33 @@
     //class instructions ++++++++++++++++++++++++++++++++++++++++++++
     export class Instructions extends finalProject.Scene {
         //private properties
-        private  _introLabel: finalProject.Label;
+        private _introLabel: finalProject.Label;
         private _startButton: finalProject.Button = new finalProject.Button("startButton", finalProject.centerX, 390);
-      private  _logo: createjs.Bitmap;
-      private _nameLabel: finalProject.Label;
-      private _selectCategoryLabel: finalProject.Label = new finalProject.Label("Select Category:", "20px Consolas", "#FFF000", 206, 175, false);
-      private _foodBtn: finalProject.Button = new finalProject.Button("categoryButton", 206, 205);
-      private _furnitureBtn: finalProject.Button = new finalProject.Button("categoryButton", 456, 205);
-      private _clothesBtn: finalProject.Button = new finalProject.Button("categoryButton", 206, 290);
-      private _animalsBtn: finalProject.Button = new finalProject.Button("categoryButton", 456, 290);
-      private _foodLabel: finalProject.Label = new finalProject.Label("FOOD", "30px Consolas", "#000000", 301, 230, true);
-      private _furnitureLabel: finalProject.Label = new finalProject.Label("FURNITURE", "30px Consolas", "#000000", 551, 230, true);
-      private _clothesLabel: finalProject.Label = new finalProject.Label("CLOTHES", "30px Consolas", "#000000", 301, 315, true);
-      private _animalsLabel: finalProject.Label = new finalProject.Label("ANIMALS", "30px Consolas", "#000000", 551, 315, true);
-      private _alertContainer: createjs.Container = new createjs.Container;
-      private _instructionsContainer: createjs.Container = new createjs.Container;
-      private _alertLable: finalProject.Label = new finalProject.Label("Please select a category!", "20px Consolas", "#FF0000", finalProject.centerX, 370, true);
-      private _isAlertOn: boolean = false;
-      private _instructionsLable: finalProject.Label = new finalProject.Label("placeholder text", "20px Consolas", "#000000", 20, 20, false);
-      private  _rulesButton: finalProject.Button = new finalProject.Button("rulesButton", finalProject.centerX, 50);
-      private  _aboutButton: finalProject.Button;
-      private _rect: createjs.Shape = new createjs.Shape;
-      private _instructionsVisible: boolean = false;
-      private _isCategorySelected: boolean;
-      private _rulesText: string = "placeholder"; 
-      private _lowerTickBoundary: number;
-      private _higherTickBoundary: number;
-      private _isAlertDisplayed: boolean = false;
+        private _logo: createjs.Bitmap;
+        private _nameLabel: finalProject.Label;
+        private _selectCategoryLabel: finalProject.Label = new finalProject.Label("Select Category:", "20px Consolas", "#FFF000", 206, 175, false);
+        private _foodBtn: finalProject.Button = new finalProject.Button("categoryButton", 206, 205);
+        private _furnitureBtn: finalProject.Button = new finalProject.Button("categoryButton", 456, 205);
+        private _clothesBtn: finalProject.Button = new finalProject.Button("categoryButton", 206, 290);
+        private _animalsBtn: finalProject.Button = new finalProject.Button("categoryButton", 456, 290);
+        private _foodLabel: finalProject.Label = new finalProject.Label("FOOD", "30px Consolas", "#000000", 301, 230, true);
+        private _furnitureLabel: finalProject.Label = new finalProject.Label("FURNITURE", "30px Consolas", "#000000", 551, 230, true);
+        private _clothesLabel: finalProject.Label = new finalProject.Label("CLOTHES", "30px Consolas", "#000000", 301, 315, true);
+        private _animalsLabel: finalProject.Label = new finalProject.Label("ANIMALS", "30px Consolas", "#000000", 551, 315, true);
+        private _alertContainer: createjs.Container = new createjs.Container;
+        private _instructionsContainer: createjs.Container = new createjs.Container;
+        private _alertLable: finalProject.Label = new finalProject.Label("Please select a category!", "20px Consolas", "#FF0000", finalProject.centerX, 370, true);
+        private _isAlertOn: boolean = false;
+        private _instructionsLable: finalProject.Label = new finalProject.Label("placeholder text", "20px Consolas", "#000000", 20, 20, false);
+        private _rulesButton: finalProject.Button = new finalProject.Button("rulesButton", finalProject.centerX, 50);
+        private _aboutButton: finalProject.Button;
+        private _rect: createjs.Shape = new createjs.Shape;
+        private _instructionsVisible: boolean = false;
+        private _isCategorySelected: boolean;
+        private _rulesText: string = "placeholder";
+        private _lowerTickBoundary: number;
+        private _higherTickBoundary: number;
+        private _isAlertDisplayed: boolean = false;
 
 
         //constructor ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -41,38 +41,36 @@
         private _playClicked(event: createjs.MouseEvent): void {
             console.log("event.target " + event.target);
             createjs.Sound.play("soundtrack");
-            if (currentLevel == finalProject.LEVEL1_STATE || currentLevel == finalProject.LEVEL2_STATE) {
+            if (currentLevel == finalProject.LEVEL1_STATE) {
+                //get the name of user
+                name = (<HTMLInputElement>document.getElementById("txtName")).value;
+                if (name == null || name == "") {
+                    name = "YOU";
+                }
+            }
+          //  console.log("check name after button is clicked " + name);
+            if (this._isCategorySelected) {
+                document.getElementById("txtName").style.display = "none";
+                this.removeAllChildren();
                 if (currentLevel == finalProject.LEVEL1_STATE) {
-                    //get the name of user
-                    name = (<HTMLInputElement>document.getElementById("txtName")).value;
-                    if (name == null || name == "") {
-                        name = "YOU";
-                    }
-                }
-                console.log("check name after button is clicked " + name);
-                if (this._isCategorySelected) {
-                    document.getElementById("txtName").style.display = "none";
-                    this.removeAllChildren();
-                    if (currentLevel == finalProject.LEVEL1_STATE) {
-                        changeState(finalProject.LEVEL2_STATE, 0);
-                    } else if (currentLevel == finalProject.LEVEL2_STATE) {
-                        changeState(finalProject.LEVEL3_STATE, 0);
-                    } else {
-                        changeState(finalProject.LEVEL1_STATE, 0);
-                    }
-                    console.log("category was selected");
-                } else {
-                    //display message to select a category
-                    console.log("didn't recognize that category was selected");
-                    //add instruction container
-                    this._isAlertOn = true;
-                    this._isAlertDisplayed = true;
-                    tickCounter = 0;
-                    this._lowerTickBoundary = 0;
-                    this._higherTickBoundary = 50;
-                    this.addChild(this._alertLable);
-                    this._alertContainer.visible = true;
-                }
+                    changeState(finalProject.LEVEL1_STATE);
+                } else if (currentLevel == finalProject.LEVEL2_STATE) {
+                    changeState(finalProject.LEVEL2_STATE);
+                } else if (currentLevel == finalProject.LEVEL3_STATE) {
+                    changeState(finalProject.LEVEL3_STATE);
+                } 
+                console.log("category was selected");
+            } else {
+                //display message to select a category
+                console.log("didn't recognize that category was selected");
+                //add instruction container
+                this._isAlertOn = true;
+                this._isAlertDisplayed = true;
+                tickCounter = 0;
+                this._lowerTickBoundary = 0;
+                this._higherTickBoundary = 50;
+                this.addChild(this._alertLable);
+                this._alertContainer.visible = true;
             }
         }
 
@@ -255,7 +253,7 @@
 
         public update(): void {
             //make label flicker
-            console.log(tickCounter);
+          //  console.log(tickCounter);
             if (this._isAlertOn) {
                 if (!this._isAlertDisplayed && (tickCounter >= this._lowerTickBoundary && tickCounter <= this._higherTickBoundary)) {
                     this._alertLable.text = "Please select a category!";

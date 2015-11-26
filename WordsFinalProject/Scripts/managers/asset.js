@@ -14,6 +14,7 @@ var finalProject;
             this._manifest = [
                 { id: "againButton", src: "../../Assets/images/againButton.png" },
                 { id: "back", src: "../../Assets/images/back_long.png" },
+                { id: "backPaper", src: "../../Assets/images/paper.png" },
                 { id: "truck", src: "../../Assets/images/truck.png" },
                 { id: "categoryButton", src: "../../Assets/images/categoryButton.png" },
                 { id: "startButton", src: "../../Assets/images/startButton.png" },

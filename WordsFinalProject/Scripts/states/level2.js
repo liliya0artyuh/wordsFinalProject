@@ -115,13 +115,13 @@ var finalProject;
                 outcome = 2;
                 numOfCollectedWords[1] = scoreboard.score / 100;
                 numOfLivesLost[1] = 3;
-                changeState(finalProject.END_STATE, 0);
+                changeState(finalProject.SCORE_STATE);
             }
             if (scoreboard.score == 1000) {
                 outcome = 1;
                 numOfCollectedWords[1] = 10;
                 numOfLivesLost[1] = 3 - scoreboard.lives;
-                changeState(finalProject.END_STATE, 0);
+                changeState(finalProject.SCORE_STATE);
             }
         };
         return Level2;

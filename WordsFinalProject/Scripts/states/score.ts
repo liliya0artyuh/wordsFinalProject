@@ -34,13 +34,16 @@ module finalProject {
         private _againClicked(event: createjs.MouseEvent): void {
             switch (currentLevel){
                 case finalProject.LEVEL1_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL1_STATE);
+                    currentLevel = finalProject.LEVEL1_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
                 case finalProject.LEVEL2_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL2_STATE);
+                    currentLevel = finalProject.LEVEL2_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
                 case finalProject.LEVEL3_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL3_STATE);
+                    currentLevel = finalProject.LEVEL3_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
         }
         }
@@ -48,19 +51,21 @@ module finalProject {
         private _nextClicked(event: createjs.MouseEvent): void {
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL2_STATE);
+                    currentLevel = finalProject.LEVEL2_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
                 case finalProject.LEVEL2_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL3_STATE);
+                    currentLevel = finalProject.LEVEL3_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
             }
         }
 
         private _exitClicked(event: createjs.MouseEvent): void {
-            changeState(finalProject.START_STATE, 0);
+            changeState(finalProject.START_STATE);
             }
         private _summaryClicked(event: createjs.MouseEvent): void {
-            changeState(finalProject.END_STATE, 0);
+            changeState(finalProject.END_STATE);
         }
 
         //public methods

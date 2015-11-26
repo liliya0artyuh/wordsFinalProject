@@ -30,7 +30,8 @@ module finalProject {
         //callback function that allows to respond to start button click events
         private _continueClicked(event: createjs.MouseEvent): void {
             createjs.Sound.play("soundtrack");
-            changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL1_STATE);
+            currentLevel = finalProject.LEVEL1_STATE;
+            changeState(finalProject.INSTRUCTIONS_STATE);
         }
 
         //callback function that allows to respond to button click events

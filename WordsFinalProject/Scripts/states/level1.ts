@@ -19,6 +19,7 @@ module finalProject {
         _numExists: boolean;
         _currentCategory: string[];
         _antagonistWords: string[];
+        _background: createjs.Bitmap;
 
 
         //constructor
@@ -29,7 +30,9 @@ module finalProject {
         //public methods
         public start(): void {
             this._determineCategories();
-            this.addChild(background);
+            this._background = new createjs.Bitmap(assets.loader.getResult("backPaper"));
+           this.addChild(this._background);
+          //  this.addChild(background);
 
 
             //add truck/collector to the game
@@ -138,13 +141,13 @@ module finalProject {
                 outcome = 2;
                 numOfCollectedWords[0] = scoreboard.score / 100;
                 numOfLivesLost[0] = 3;
-                changeState(finalProject.SCORE_STATE, 0);
+                changeState(finalProject.SCORE_STATE);
             }
             if (scoreboard.score == winningNumber) {
                     outcome = 1;
                     numOfCollectedWords[0] = winningNumber/100;
                     numOfLivesLost[0] = 3 - scoreboard.lives;
-                    changeState(finalProject.SCORE_STATE, 0);
+                    changeState(finalProject.SCORE_STATE);
             }
         }
     }

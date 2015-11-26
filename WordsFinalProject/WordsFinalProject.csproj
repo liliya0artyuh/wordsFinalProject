@@ -37,6 +37,7 @@
     <Content Include="Assets\images\exitButton.png" />
     <Content Include="Assets\images\logo.PNG" />
     <Content Include="Assets\images\nextLevelButton.png" />
+    <Content Include="Assets\images\paper.png" />
     <Content Include="Assets\images\rules.png" />
     <Content Include="Assets\images\saveButton.png" />
     <Content Include="Assets\images\startButton.PNG" />

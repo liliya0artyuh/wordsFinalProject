@@ -23,7 +23,9 @@ var finalProject;
         //public methods
         Level1.prototype.start = function () {
             this._determineCategories();
-            this.addChild(background);
+            this._background = new createjs.Bitmap(assets.loader.getResult("backPaper"));
+            this.addChild(this._background);
+            //  this.addChild(background);
             //add truck/collector to the game
             this._truck = new finalProject.Truck("truck");
             this.addChild(this._truck);
@@ -118,13 +120,13 @@ var finalProject;
                 outcome = 2;
                 numOfCollectedWords[0] = scoreboard.score / 100;
                 numOfLivesLost[0] = 3;
-                changeState(finalProject.SCORE_STATE, 0);
+                changeState(finalProject.SCORE_STATE);
             }
             if (scoreboard.score == finalProject.winningNumber) {
                 outcome = 1;
                 numOfCollectedWords[0] = finalProject.winningNumber / 100;
                 numOfLivesLost[0] = 3 - scoreboard.lives;
-                changeState(finalProject.SCORE_STATE, 0);
+                changeState(finalProject.SCORE_STATE);
             }
         };
         return Level1;

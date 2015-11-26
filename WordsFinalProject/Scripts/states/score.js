@@ -24,31 +24,36 @@ var finalProject;
         Score.prototype._againClicked = function (event) {
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL1_STATE);
+                    currentLevel = finalProject.LEVEL1_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
                 case finalProject.LEVEL2_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL2_STATE);
+                    currentLevel = finalProject.LEVEL2_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
                 case finalProject.LEVEL3_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL3_STATE);
+                    currentLevel = finalProject.LEVEL3_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
             }
         };
         Score.prototype._nextClicked = function (event) {
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL2_STATE);
+                    currentLevel = finalProject.LEVEL2_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
                 case finalProject.LEVEL2_STATE:
-                    changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL3_STATE);
+                    currentLevel = finalProject.LEVEL3_STATE;
+                    changeState(finalProject.INSTRUCTIONS_STATE);
                     break;
             }
         };
         Score.prototype._exitClicked = function (event) {
-            changeState(finalProject.START_STATE, 0);
+            changeState(finalProject.START_STATE);
         };
         Score.prototype._summaryClicked = function (event) {
-            changeState(finalProject.END_STATE, 0);
+            changeState(finalProject.END_STATE);
         };
         //public methods
         Score.prototype.start = function () {

@@ -132,13 +132,13 @@ module finalProject {
                 outcome = 2;
                 numOfCollectedWords[2] = scoreboard.score / 100;
                 numOfLivesLost[2] = 3;
-                changeState(finalProject.END_STATE, 0);
+                changeState(finalProject.END_STATE);
             }
             if (scoreboard.score == 1000) {
                 outcome = 1;
                 numOfCollectedWords[2] = 10;
                 numOfLivesLost[2] = 3 - scoreboard.lives;
-                changeState(finalProject.END_STATE, 0);
+                changeState(finalProject.END_STATE);
             }
         }
     }

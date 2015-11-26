@@ -59,7 +59,7 @@ function init(): void {
     setupStats();// setup statistics object
 
     state = finalProject.START_STATE;
-    changeState(state, 0);
+    changeState(state);
 }
 
 // Main Game Loop
@@ -92,7 +92,7 @@ function setupStats(): void {
 
 
 // state machine
-function changeState(state, level: number): void {
+function changeState(state): void {
     //lauch various scenes
 
     switch (state) {
@@ -112,7 +112,6 @@ function changeState(state, level: number): void {
             stage.removeAllChildren();
             instructionFinalProject = new finalProject.Instructions();
             currentState = instructionFinalProject;
-            currentLevel = level;
   break;
 
         case finalProject.LEVEL1_STATE:

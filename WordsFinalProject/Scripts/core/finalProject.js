@@ -48,7 +48,7 @@ function init() {
     stage.addChild(background);
     setupStats(); // setup statistics object
     state = finalProject.START_STATE;
-    changeState(state, 0);
+    changeState(state);
 }
 // Main Game Loop
 function gameLoop(event) {
@@ -71,7 +71,7 @@ function setupStats() {
     document.body.appendChild(stats.domElement);
 }
 // state machine
-function changeState(state, level) {
+function changeState(state) {
     //lauch various scenes
     switch (state) {
         case finalProject.START_STATE:
@@ -88,7 +88,6 @@ function changeState(state, level) {
             stage.removeAllChildren();
             instructionFinalProject = new finalProject.Instructions();
             currentState = instructionFinalProject;
-            currentLevel = level;
             break;
         case finalProject.LEVEL1_STATE:
             stage.removeAllChildren();

@@ -37,41 +37,39 @@ var finalProject;
         Instructions.prototype._playClicked = function (event) {
             console.log("event.target " + event.target);
             createjs.Sound.play("soundtrack");
-            if (currentLevel == finalProject.LEVEL1_STATE || currentLevel == finalProject.LEVEL2_STATE) {
+            if (currentLevel == finalProject.LEVEL1_STATE) {
+                //get the name of user
+                name = document.getElementById("txtName").value;
+                if (name == null || name == "") {
+                    name = "YOU";
+                }
+            }
+            //  console.log("check name after button is clicked " + name);
+            if (this._isCategorySelected) {
+                document.getElementById("txtName").style.display = "none";
+                this.removeAllChildren();
                 if (currentLevel == finalProject.LEVEL1_STATE) {
-                    //get the name of user
-                    name = document.getElementById("txtName").value;
-                    if (name == null || name == "") {
-                        name = "YOU";
-                    }
+                    changeState(finalProject.LEVEL1_STATE);
                 }
-                console.log("check name after button is clicked " + name);
-                if (this._isCategorySelected) {
-                    document.getElementById("txtName").style.display = "none";
-                    this.removeAllChildren();
-                    if (currentLevel == finalProject.LEVEL1_STATE) {
-                        changeState(finalProject.LEVEL2_STATE, 0);
-                    }
-                    else if (currentLevel == finalProject.LEVEL2_STATE) {
-                        changeState(finalProject.LEVEL3_STATE, 0);
-                    }
-                    else {
-                        changeState(finalProject.LEVEL1_STATE, 0);
-                    }
-                    console.log("category was selected");
+                else if (currentLevel == finalProject.LEVEL2_STATE) {
+                    changeState(finalProject.LEVEL2_STATE);
                 }
-                else {
-                    //display message to select a category
-                    console.log("didn't recognize that category was selected");
-                    //add instruction container
-                    this._isAlertOn = true;
-                    this._isAlertDisplayed = true;
-                    tickCounter = 0;
-                    this._lowerTickBoundary = 0;
-                    this._higherTickBoundary = 50;
-                    this.addChild(this._alertLable);
-                    this._alertContainer.visible = true;
+                else if (currentLevel == finalProject.LEVEL3_STATE) {
+                    changeState(finalProject.LEVEL3_STATE);
                 }
+                console.log("category was selected");
+            }
+            else {
+                //display message to select a category
+                console.log("didn't recognize that category was selected");
+                //add instruction container
+                this._isAlertOn = true;
+                this._isAlertDisplayed = true;
+                tickCounter = 0;
+                this._lowerTickBoundary = 0;
+                this._higherTickBoundary = 50;
+                this.addChild(this._alertLable);
+                this._alertContainer.visible = true;
             }
         };
         //callback function that allows to respond to button click events
@@ -229,7 +227,7 @@ var finalProject;
         };
         Instructions.prototype.update = function () {
             //make label flicker
-            console.log(tickCounter);
+            //  console.log(tickCounter);
             if (this._isAlertOn) {
                 if (!this._isAlertDisplayed && (tickCounter >= this._lowerTickBoundary && tickCounter <= this._higherTickBoundary)) {
                     this._alertLable.text = "Please select a category!";

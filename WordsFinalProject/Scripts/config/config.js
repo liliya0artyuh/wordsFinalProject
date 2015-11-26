@@ -8,12 +8,12 @@ var finalProject;
 (function (finalProject) {
     // state constants
     finalProject.START_STATE = 0;
-    finalProject.SCORE_STATE = 1;
-    finalProject.END_STATE = 2;
-    finalProject.INSTRUCTIONS_STATE = 3;
-    finalProject.LEVEL1_STATE = 4;
-    finalProject.LEVEL2_STATE = 5;
-    finalProject.LEVEL3_STATE = 6;
+    finalProject.LEVEL1_STATE = 1;
+    finalProject.LEVEL2_STATE = 2;
+    finalProject.LEVEL3_STATE = 3;
+    finalProject.SCORE_STATE = 4;
+    finalProject.END_STATE = 5;
+    finalProject.INSTRUCTIONS_STATE = 6;
     //
     finalProject.winningNumber = 300;
     finalProject.numOfAntiWords = 3;

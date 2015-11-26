@@ -24,7 +24,8 @@ var finalProject;
         //callback function that allows to respond to start button click events
         Start.prototype._continueClicked = function (event) {
             createjs.Sound.play("soundtrack");
-            changeState(finalProject.INSTRUCTIONS_STATE, finalProject.LEVEL1_STATE);
+            currentLevel = finalProject.LEVEL1_STATE;
+            changeState(finalProject.INSTRUCTIONS_STATE);
         };
         //callback function that allows to respond to button click events
         Start.prototype._aboutClicked = function (event) {

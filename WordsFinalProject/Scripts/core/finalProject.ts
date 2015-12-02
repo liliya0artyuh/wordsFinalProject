@@ -53,7 +53,7 @@ function init(): void {
     createjs.Ticker.setFPS(60); // set frame rate to 60 frames per second
     createjs.Ticker.on("tick", gameLoop, this); // update gameLoop every frame
     tickCounter = 0;
-
+   
     background = new finalProject.Background("back");
     stage.addChild(background);
     setupStats();// setup statistics object

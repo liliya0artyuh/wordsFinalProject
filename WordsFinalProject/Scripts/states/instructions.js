@@ -186,7 +186,7 @@ var finalProject;
                 //add name label to scene
                 this.addChild(this._nameLabel);
                 document.getElementById("txtName").style.display = "inline";
-                console.log("check name " + name);
+                // console.log("check name " + name);
                 this._setUpLevel1And2();
             }
             else if (currentLevel == finalProject.LEVEL2_STATE) {

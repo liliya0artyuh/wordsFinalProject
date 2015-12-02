@@ -37,7 +37,7 @@ var finalProject;
                 this._instructionsContainer.visible = true;
             }
             //check which button was clicked
-            console.log("event.target.name " + event.target.name);
+            // console.log("event.target.name " + event.target.name);
             this._instructionsLable.text = this._aboutText;
         };
         Start.prototype._categoryClicked = function (event) {
@@ -47,7 +47,7 @@ var finalProject;
             if (name == null || name == "") {
                 name = "YOU";
             }
-            console.log("check name after button is clicked " + name);
+            // console.log("check name after button is clicked " + name);
             document.getElementById("txtName").style.display = "none";
         };
         //public methods

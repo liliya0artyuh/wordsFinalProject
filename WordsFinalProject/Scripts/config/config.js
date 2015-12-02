@@ -16,7 +16,6 @@ var finalProject;
     finalProject.INSTRUCTIONS_STATE = 6;
     //
     finalProject.winningNumber = 300;
-    finalProject.numOfAntiWords = 3;
     finalProject.centerX = 424;
     finalProject.collectorWidth = 227;
     finalProject.collectorHeight = 103;

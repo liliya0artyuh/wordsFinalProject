@@ -44,9 +44,9 @@ module finalProject {
                         //encrease points
                         //add sound
                         createjs.Sound.play(gameObject.sound);
-                        if (gameObject.name == "hero") {
+                        if (gameObject.name == "friend") {
                             scoreboard.score += 100;
-                            console.log("gameObject.name == " + "hero");
+                            console.log("gameObject.name == " + "friend");
                             console.log("this._collectorX" + this._collectorX);
                             console.log("this._wordX" + this._wordX);
                             console.log("this._collectorY2" + this._collectorY2);
@@ -55,7 +55,7 @@ module finalProject {
                             console.log("this._wordY1" + this._wordY1);
                             console.log("------------------------------------------");
                         }
-                        if (gameObject.name == "enemy") {
+                        if (gameObject.name == "enemy1" || gameObject.name == "enemy2" || gameObject.name == "enemy3" || gameObject.name == "enemy4") {
                             console.log("gameObject.name == " + "enemy");
                             console.log("this._collectorX" + this._collectorX);
                             console.log("this._wordX" + this._wordX);

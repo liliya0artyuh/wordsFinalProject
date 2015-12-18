@@ -15,29 +15,84 @@ var finalProject;
     var Background = (function (_super) {
         __extends(Background, _super);
         //CONSTRUCTOR --------------------------------------------------
-        function Background(imageString) {
+        function Background(imageString, num) {
             _super.call(this, assets.loader.getResult(imageString));
-            this.dx = 1;
-            //  this.width = this.getBounds().width;
-            // this.height = this.getBounds().height;
-            this.x = 0; // start Background - x value
-            this.y = 0; // start Background - y value
+            this._dx = 1;
+            this._dy = 1;
+            this._firstScreen = false;
+            this._firstScreen = num;
+            if (this._firstScreen) {
+                //  this.width = this.getBounds().width;
+                // this.height = this.getBounds().height;
+                this.x = 0; // start Background - x value
+                this.y = 0; // start Background - y value
+            }
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    //  this.width = this.getBounds().width;
+                    // this.height = this.getBounds().height;
+                    this.x = 0; // start Background - x value
+                    this.y = -1100; // start Background - y value
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    break;
+            }
         }
         //PRIVATE METHODS --------------------------------------------------------
         Background.prototype._checkBounds = function () {
-            //check if Background has left the screen
-            if (this.x <= -1696) {
-                this._reset();
+            if (this._firstScreen) {
+                //check if Background has left the screen
+                if (this.x <= -1696) {
+                    this._reset();
+                }
+            }
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    //check if Background has left the screen
+                    if (this.y >= 0) {
+                        this._reset();
+                    }
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    break;
             }
         };
         Background.prototype._reset = function () {
-            this.x = 0; // start Background - x value
-            this.y = 0; // start Background - y value
+            if (this._firstScreen) {
+                this.x = 0; // start Background - x value
+                this.y = 0; // start Background - y value
+            }
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this.x = 0; // start Background - x value
+                    this.y = -1100; // start Background - y value
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    break;
+            }
         };
         //PUBLIC METHODS -----------------------------------------------------
         Background.prototype.update = function () {
-            this.x -= this.dx;
-            this._checkBounds();
+            if (this._firstScreen) {
+                this.x -= this._dx;
+                this._checkBounds();
+            }
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this.y += this._dy;
+                    this._checkBounds();
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    break;
+            }
         };
         return Background;
     })(createjs.Bitmap);

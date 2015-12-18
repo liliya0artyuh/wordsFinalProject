@@ -23,10 +23,12 @@ var finalProject;
         //public methods
         Level2.prototype.start = function () {
             this._determineCategories();
-            this.addChild(background);
+            finalProject.positionsAllX = new Array(141.5, 424, 706.5, 283, 565, 141.5, 424, 706.5, 283, 565, 141.5, 424, 706.5, 283, 565);
+            this._background = new finalProject.Background("back_vert", false);
+            this.addChild(this._background);
             //add truck/collector to the game
-            this._truck = new finalProject.Truck("truck");
-            this.addChild(this._truck);
+            this._shooter = new finalProject.Collector("shooter");
+            this.addChild(this._shooter);
             //add selected category finalProject
             this._word = new finalProject.Word(true); // collectibe word
             this.addChild(this._word);
@@ -103,13 +105,14 @@ var finalProject;
             }
         };
         Level2.prototype.update = function () {
-            this._truck.update();
+            this._background.update();
+            this._shooter.update();
             this._word.update();
             for (var antiWord = 0; antiWord < finalProject.numOfAntiWords; antiWord++) {
                 this._antiWords[antiWord].update();
-                collision.check(this._antiWords[antiWord], this._truck);
+                collision.check(this._antiWords[antiWord], this._shooter);
             }
-            collision.check(this._word, this._truck);
+            collision.check(this._word, this._shooter);
             scoreboard.update();
             if (scoreboard.lives <= 0) {
                 outcome = 2;

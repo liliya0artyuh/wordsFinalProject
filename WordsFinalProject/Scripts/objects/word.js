@@ -138,14 +138,19 @@ var finalProject;
                     break;
                 case finalProject.LEVEL2_STATE:
                     this._determineNextWord();
+                    this._determineNextWord();
                     if (this._currentWord) {
                         this.text = finalProject.currentCategory[this._currentWordItem];
                     }
                     else {
-                        for (var antiWord = 0; antiWord < finalProject.numOfAntiWords; antiWord++) {
-                            this.text = finalProject.antagonistWords[this._antiWordItem]; // antogonist finalProject
-                        }
+                        // for (var antiWord = 0; antiWord < config.numOfAntiWords; antiWord++) {
+                        this.text = finalProject.antagonistWords[this._antiWordItem]; // antogonist words
                     }
+                    this._dx = (Math.random() * (1.5 - 0.5 + 0.5) + 0.5); //sets random speed between 1 and 2
+                    this.y = Math.floor(Math.random() * (450 - 50 + 50) + 50); // start word at random location
+                    this.x = 848;
+                    this.width = this.getBounds().width;
+                    this.height = this.getBounds().height;
                     break;
                 case finalProject.LEVEL3_STATE:
                     break;
@@ -167,13 +172,6 @@ var finalProject;
                     // console.log(" w = " + this.width);
                     break;
                 case finalProject.LEVEL2_STATE:
-                    this._dx = (Math.random() * (1.5 - 0.5 + 0.5) + 0.5); //sets random speed between 1 and 2
-                    this.y = Math.floor(Math.random() * (400 - 50 + 50) + 50); // start word at random location
-                    this.x = 848;
-                    this.width = this.getBounds().width;
-                    this.height = this.getBounds().height;
-                    //console.log(" w = " + this.width);
-                    //console.log(" h = " + this.height);
                     break;
                 case finalProject.LEVEL3_STATE:
                     this._dx = (Math.random() * (1.5 - 0.5 + 0.5) + 0.5); //sets random speed between 1 and 2
@@ -195,7 +193,7 @@ var finalProject;
                     }
                     break;
                 case finalProject.LEVEL2_STATE:
-                    this.x -= this._dx;
+                    this.y += this._dy;
                     this._checkBounds();
                     break;
                 case finalProject.LEVEL3_STATE:

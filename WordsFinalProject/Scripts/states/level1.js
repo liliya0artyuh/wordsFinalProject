@@ -88,7 +88,7 @@ var finalProject;
             scoreboard = new finalProject.Scoreboard;
             collision = new finalProject.Collision;
             for (var x = 0; x < this._allWordsArray.length; x++) {
-                console.log(" text " + [x] + " " + this._allWordsArray[x].text);
+                console.log(" width " + [x] + " " + this._allWordsArray[x].getBounds().width);
             }
             this._nextTckerWord();
         };
@@ -203,7 +203,7 @@ var finalProject;
             // console.log(" friend = 0; enemy = 1-3 ::: " + friendOrEnemy);
             //get position for X and Y for new word that is not currently occupied
             this._newposXY = this._getNewPosition();
-            console.log(" newposXY btw 0-14 " + this._newposXY);
+            //     console.log(" newposXY btw 0-14 " + this._newposXY);
             //if (this._takeThisPosition == positionsTaken.length) {
             //    this._takeThisPosition = 0;
             //}            
@@ -222,13 +222,13 @@ var finalProject;
         };
         Level1.prototype._getNewPosition = function () {
             var numXY;
-            console.log("  positionsTaken " + finalProject.positionsTaken);
+            //  console.log("  positionsTaken " + positionsTaken);
             var newPosDetermined = false;
             while (newPosDetermined == false) {
                 numXY = Math.floor(Math.random() * (this._totalPositions - 0 + 0) + 0); // random number between 0 and 14
                 for (var x = 0; x < finalProject.positionsTaken.length; x++) {
                     if (numXY == finalProject.positionsTaken[x]) {
-                        console.log(" x x---- " + x);
+                        //  console.log(" x x---- " + x);
                         newPosDetermined = false;
                         break;
                     }
@@ -253,7 +253,7 @@ var finalProject;
             else {
                 this._nextWordPos++;
             }
-            console.log(" next position 0 " + this._nextWordPos);
+            //   console.log(" next position 0 " + this._nextWordPos);
         };
         Level1.prototype._addNewWord = function (friendOrEnemy, newposXY) {
             delete finalProject.positionsTaken[this._nextWordPos];
@@ -268,11 +268,10 @@ var finalProject;
             }
             this.addChild(this._allWordsArray[this._nextWordPos]);
             for (var x = 0; x < this._allWordsArray.length; x++) {
-                console.log([x] + " = " + this._allWordsArray[x].text);
             }
-            console.log(" word.length " + this._allWordsArray.length);
-            console.log(" 99999999999   newposXY " + newposXY);
-            console.log("  positionsTaken " + finalProject.positionsTaken);
+            //console.log(" word.length " + this._allWordsArray.length);
+            //console.log(" 99999999999   newposXY " + newposXY );
+            //console.log("  positionsTaken " + positionsTaken);
         };
         //valid method
         Level1.prototype._newFriend = function () {
@@ -332,7 +331,7 @@ var finalProject;
             // reset word
             this._tickLevel1++;
             if (this._tickLevel1 == 500) {
-                console.log("counter " + this.counter);
+                //  console.log("counter " + this.counter);
                 if (this.counter < 10) {
                     //add new word
                     this._addNewWord(this._friendOrEnemy, this._newposXY);

@@ -25,7 +25,7 @@ var finalProject;
             this._determineCategories();
             this.addChild(background);
             //add truck/collector to the game
-            this._truck = new finalProject.Truck("truck");
+            this._truck = new finalProject.Collector("truck");
             this.addChild(this._truck);
             //add selected category finalProject
             this._word = new finalProject.Word(true); // collectibe word

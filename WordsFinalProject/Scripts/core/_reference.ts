@@ -14,7 +14,7 @@
 
 /// <reference path="../objects/background.ts" />
 /// <reference path="../objects/word.ts" />
-/// <reference path="../objects/truck.ts" />
+/// <reference path="../objects/collector.ts" />
 
 /// <reference path="../objects/label.ts" />
 /// <reference path="../objects/button.ts" />

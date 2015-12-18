@@ -29,6 +29,7 @@
         private _lowerTickBoundary: number;
         private _higherTickBoundary: number;
         private _isAlertDisplayed: boolean = false;
+        private _background: finalProject.Background;
 
 
         //constructor ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -120,9 +121,21 @@
             //set boolean value for category selected control to false
             this._isCategorySelected = false;
 
-            //add background to the scene
-            this.addChild(background);
 
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    //add background to the scene
+                    this.addChild(background);
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this._background = new finalProject.Background("back_vert", false);
+                    this.addChild(this._background);
+                    break;
+                case finalProject.LEVEL1_STATE:
+                    //add background to the scene
+                    this.addChild(background);
+                    break;
+            }
             //display categories
             this._getDetails();
 
@@ -249,6 +262,16 @@
         }
 
         public update(): void {
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this._background.update();
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    break;
+            }
+
             //make label flicker
           //  console.log(tickCounter);
             if (this._isAlertOn) {

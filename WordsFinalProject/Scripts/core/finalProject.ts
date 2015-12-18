@@ -53,8 +53,8 @@ function init(): void {
     createjs.Ticker.setFPS(60); // set frame rate to 60 frames per second
     createjs.Ticker.on("tick", gameLoop, this); // update gameLoop every frame
     tickCounter = 0;
-   
-    background = new finalProject.Background("back");
+
+    background = new finalProject.Background("back", true);
     stage.addChild(background);
     setupStats();// setup statistics object
 
@@ -112,13 +112,12 @@ function changeState(state): void {
             stage.removeAllChildren();
             instructionFinalProject = new finalProject.Instructions();
             currentState = instructionFinalProject;
-  break;
+            break;
 
         case finalProject.LEVEL1_STATE:
             stage.removeAllChildren();
             level1FinalProject = new finalProject.Level1();
             currentState = level1FinalProject;
-
             break;
 
         case finalProject.LEVEL2_STATE:
@@ -141,5 +140,4 @@ function changeState(state): void {
     }
     currentState.start();
     console.log(currentState.numChildren);
-
 }

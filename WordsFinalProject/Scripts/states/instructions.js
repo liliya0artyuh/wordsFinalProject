@@ -112,8 +112,20 @@ var finalProject;
         Instructions.prototype.start = function () {
             //set boolean value for category selected control to false
             this._isCategorySelected = false;
-            //add background to the scene
-            this.addChild(background);
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    //add background to the scene
+                    this.addChild(background);
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this._background = new finalProject.Background("back_vert", false);
+                    this.addChild(this._background);
+                    break;
+                case finalProject.LEVEL1_STATE:
+                    //add background to the scene
+                    this.addChild(background);
+                    break;
+            }
             //display categories
             this._getDetails();
             //add buttons for about and rules
@@ -224,6 +236,15 @@ var finalProject;
             this._selectCategoryLabel.text = "All categories are selected for this level";
         };
         Instructions.prototype.update = function () {
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this._background.update();
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    break;
+            }
             //make label flicker
             //  console.log(tickCounter);
             if (this._isAlertOn) {

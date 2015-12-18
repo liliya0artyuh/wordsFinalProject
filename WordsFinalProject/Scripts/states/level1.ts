@@ -11,7 +11,7 @@ module finalProject {
         // private instance variables
           counter = 1;
         _textLabel: finalProject.Label;
-        _truck: finalProject.Truck;
+     //   _truck: finalProject.Truck;
    //     _friend: finalProject.Word;
    //     _friendNew: finalProject.Word;
     //    _enemy: finalProject.Word;
@@ -127,7 +127,7 @@ module finalProject {
             collision = new finalProject.Collision;
 
             for (var x = 0; x < this._allWordsArray.length; x++){
-                console.log(" text " + [x]+ " " + this._allWordsArray[x].text);
+                console.log(" width " + [x] + " " + this._allWordsArray[x].getBounds().width);
             }
 
             this._nextTckerWord();
@@ -163,14 +163,14 @@ module finalProject {
             //add enemy finalProject
              var enemyName: string;
              this._enemies[this._enemyNumber] = new finalProject.Word(false);
-             this._enemies[this._enemyNumber] .text = finalProject.antagonistWords[this._enemyNumber];
-             this._enemies[this._enemyNumber] .name = "enemy" + this._enemyNumber;//enemyName;
-             this._enemies[this._enemyNumber] .setPositionLevel1(finalProject.positionsTaken[this._takeThisPosition]);
-             this._enemies[this._enemyNumber] .reset();
+             this._enemies[this._enemyNumber].text = finalProject.antagonistWords[this._enemyNumber];
+             this._enemies[this._enemyNumber].name = "enemy" + this._enemyNumber;//enemyName;
+             this._enemies[this._enemyNumber].setPositionLevel1(finalProject.positionsTaken[this._takeThisPosition]);
+             this._enemies[this._enemyNumber].reset();
             this._enemyHitArea = new createjs.Shape();
             this._enemyHitArea.graphics.beginFill("#000").drawRect(0, 0, this._enemies[this._enemyNumber].getMeasuredWidth(), this._enemies[this._enemyNumber] .height);
-            this._enemies[this._enemyNumber] .hitArea = this._enemyHitArea;
-            this._enemies[this._enemyNumber] .on("click", this._wordClicked, this);
+            this._enemies[this._enemyNumber].hitArea = this._enemyHitArea;
+            this._enemies[this._enemyNumber].on("click", this._wordClicked, this);
             return this._enemies[this._enemyNumber];
         }
 
@@ -252,7 +252,7 @@ module finalProject {
 
             //get position for X and Y for new word that is not currently occupied
             this._newposXY = this._getNewPosition();
-            console.log(" newposXY btw 0-14 " + this._newposXY);
+       //     console.log(" newposXY btw 0-14 " + this._newposXY);
             //if (this._takeThisPosition == positionsTaken.length) {
             //    this._takeThisPosition = 0;
             //}            
@@ -273,13 +273,13 @@ module finalProject {
 
         private _getNewPosition(): number {
             var numXY: number;
-            console.log("  positionsTaken " + positionsTaken);
+          //  console.log("  positionsTaken " + positionsTaken);
             var newPosDetermined: boolean = false;
             while (newPosDetermined == false) {
                 numXY = Math.floor(Math.random() * (this._totalPositions - 0 + 0) + 0); // random number between 0 and 14
                 for (var x = 0; x < positionsTaken.length; x++) {
                     if (numXY == positionsTaken[x]) {
-                        console.log(" x x---- " + x);
+                      //  console.log(" x x---- " + x);
                         newPosDetermined = false;
                         break;
                     } else {
@@ -304,7 +304,7 @@ module finalProject {
                 } else {
                     this._nextWordPos++;
             }
-                console.log(" next position 0 " + this._nextWordPos);
+             //   console.log(" next position 0 " + this._nextWordPos);
         }
 
  
@@ -321,11 +321,11 @@ module finalProject {
             }
             this.addChild(this._allWordsArray[this._nextWordPos]);
             for (var x = 0; x < this._allWordsArray.length; x++) {
-                console.log([x]+ " = " + this._allWordsArray[x].text);
+              //  console.log([x]+ " = " + this._allWordsArray[x].text);
             }
-            console.log(" word.length " + this._allWordsArray.length);
-            console.log(" 99999999999   newposXY " + newposXY );
-            console.log("  positionsTaken " + positionsTaken);
+            //console.log(" word.length " + this._allWordsArray.length);
+            //console.log(" 99999999999   newposXY " + newposXY );
+            //console.log("  positionsTaken " + positionsTaken);
    }
 
         //valid method
@@ -396,10 +396,9 @@ module finalProject {
         public update(): void {
             // reset word
             this._tickLevel1++;
-           
-         if (this._tickLevel1 == 500) {
-        
-             console.log("counter " + this.counter);
+
+         if (this._tickLevel1 == 500) {        
+           //  console.log("counter " + this.counter);
              if (this.counter < 10) {
                  //add new word
                  this._addNewWord(this._friendOrEnemy, this._newposXY);

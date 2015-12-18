@@ -27,6 +27,10 @@ module finalProject {
         { id: "continueButton", src: "../../Assets/images/continueButton.png" },
         { id: "aboutButton", src: "../../Assets/images/about.png" },
         { id: "rulesButton", src: "../../Assets/images/rules.png" },
+        { id: "shooter", src: "../../Assets/images/shooter.png" },
+        { id: "lizzard", src: "../../Assets/images/lizzard.png" },
+        { id: "magnet", src: "../../Assets/images/magnet.png" },
+        { id: "back_vert", src: "../../Assets/images/back_vertical.png" },      
         { id: "logo", src: "../../Assets/images/logo.png" },
         { id: "wellDone", src: "../../Assets/audio/wellDone.wav" },
         { id: "oh", src: "../../Assets/audio/oh.wav" }

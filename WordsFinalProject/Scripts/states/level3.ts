@@ -10,7 +10,7 @@ module finalProject {
     export class Level3 extends finalProject.Scene {
         // private instance variables
         _textLabel: finalProject.Label;
-        _truck: finalProject.Truck;
+        _truck: finalProject.Collector;
         _word: finalProject.Word;
         _antiWords: finalProject.Word[] = [];
         _currentWord: string;
@@ -33,7 +33,7 @@ module finalProject {
 
 
             //add truck/collector to the game
-            this._truck = new finalProject.Truck("truck");
+            this._truck = new finalProject.Collector("truck");
             this.addChild(this._truck);
 
             //add selected category finalProject

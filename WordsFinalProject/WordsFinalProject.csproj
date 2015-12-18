@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.6</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -75,7 +75,7 @@
     <TypeScriptCompile Include="Scripts\objects\label.ts" />
     <TypeScriptCompile Include="Scripts\objects\scene.ts" />
     <TypeScriptCompile Include="Scripts\objects\scoreboard.ts" />
-    <TypeScriptCompile Include="Scripts\objects\truck.ts" />
+    <TypeScriptCompile Include="Scripts\objects\collector.ts" />
     <TypeScriptCompile Include="Scripts\objects\word.ts" />
     <TypeScriptCompile Include="Scripts\states\end.ts" />
     <TypeScriptCompile Include="Scripts\states\instructions.ts" />

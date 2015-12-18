@@ -10,7 +10,7 @@ module finalProject {
     export class Level2 extends finalProject.Scene {
         // private instance variables
         _textLabel: finalProject.Label;
-        _truck: finalProject.Truck;
+        _shooter: finalProject.Collector;
         _word: finalProject.Word;
         _antiWords: finalProject.Word[] = [];
         _currentWord: string;
@@ -19,6 +19,7 @@ module finalProject {
         _numExists: boolean;
         _currentCategory: string[];
         _antagonistWords: string[];
+        _background: finalProject.Background;
 
 
         //constructor
@@ -29,12 +30,15 @@ module finalProject {
         //public methods
         public start(): void {
             this._determineCategories();
-            this.addChild(background);
+            finalProject.positionsAllX = new Array<number>(141.5, 424, 706.5, 283, 565, 141.5, 424, 706.5, 283, 565, 141.5, 424, 706.5, 283, 565);
+
+            this._background = new finalProject.Background("back_vert", false);
+            this.addChild(this._background);
 
 
             //add truck/collector to the game
-            this._truck = new finalProject.Truck("truck");
-            this.addChild(this._truck);
+            this._shooter = new finalProject.Collector("shooter");
+            this.addChild(this._shooter);
 
             //add selected category finalProject
             this._word = new finalProject.Word(true);// collectibe word
@@ -120,13 +124,14 @@ module finalProject {
 
 
         public update(): void {
-            this._truck.update();
+            this._background.update();
+            this._shooter.update();
             this._word.update();
             for (var antiWord = 0; antiWord < finalProject.numOfAntiWords; antiWord++) {
                 this._antiWords[antiWord].update();
-                collision.check(this._antiWords[antiWord], this._truck);
+                collision.check(this._antiWords[antiWord], this._shooter);
             }
-            collision.check(this._word, this._truck);
+            collision.check(this._word, this._shooter);
             scoreboard.update();
             if (scoreboard.lives <= 0) {
                 outcome = 2;

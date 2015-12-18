@@ -17,20 +17,25 @@ var finalProject;
         //constructor
         function Level1() {
             _super.call(this);
-            this._antiWords = [];
+            // private instance variables
+            this.counter = 1;
             this._wordOrder = [0];
             this._yPositions = 7;
             this._xPositions = 3;
-            this._positionX = new Array(141.5, 424, 706.5);
-            this._positionY = 50;
-            this._incrementYBy = 50;
             this._itemsInArray = 5;
-            this._totalPositions = 18;
+            this._totalPositions = 14;
+            this._update = false;
+            this._curCatArrayLength = 10;
+            this._enemyArrayLength = 30;
+            this._wordNumber = 0;
+            this._enemyNumber = 0;
+            this._takeThisPosition = 0;
+            this._firstCall = true;
             this._nextEnemy = 0;
             this._positionCounter = 0;
             this._friendExist = false;
             this._EorFArray = new Array();
-            this._orderOfWords = new Array();
+            this._nextWordPos = 0;
         }
         //public methods
         Level1.prototype.start = function () {
@@ -39,346 +44,315 @@ var finalProject;
             //add background
             this._background = new createjs.Bitmap(assets.loader.getResult("backPaper"));
             this.addChild(this._background);
-            //create array to hold positions of words
-            this._createArrays();
+            //create arrays to hold positions of y and x coordinates of words
+            finalProject.positionsAllX = new Array(141.5, 424, 706.5, 283, 565, 141.5, 424, 706.5, 283, 565, 141.5, 424, 706.5, 283, 565);
+            finalProject.positionsAllY = new Array(50, 50, 50, 100, 100, 150, 150, 150, 200, 200, 250, 250, 250, 300, 300);
+            //get positions for words
             finalProject.positionsTaken = new Array();
-            this._isInitialPositions = true;
-            this._getInitialPositions();
-            //add selected category finalProject
-            this._word = new finalProject.Word(true); // collectibe word
-            this._word.name = "friend";
-            this._word.setPositionLevel1(0);
-            this._word.reset();
-            this._wordHitArea = new createjs.Shape();
-            this._wordHitArea.graphics.beginFill("#000").drawRect(0, 0, this._word.getMeasuredWidth(), this._word.height);
-            this._word.hitArea = this._wordHitArea;
-            this.addChild(this._word);
-            this._word.on("click", this._wordClicked, this);
-            this._orderOfWords[0] = 0;
-            //add enemy finalProject
-            finalProject.numOfAntiWords = 4;
-            var enemyName;
-            for (var antiWord = 0; antiWord < finalProject.numOfAntiWords; antiWord++) {
-                this._antiWords[antiWord] = new finalProject.Word(false); // antogonist finalProject
-                switch (antiWord) {
-                    case 0:
-                        enemyName = "enemy1";
-                        break;
-                    case 1:
-                        enemyName = "enemy2";
-                        break;
-                    case 2:
-                        enemyName = "enemy3";
-                        break;
-                    case 3:
-                        enemyName = "enemy4";
-                        break;
-                }
-                this._antiWords[antiWord].name = enemyName;
-                this._antiWords[antiWord].setPositionLevel1(antiWord + 1);
-                this._antiWords[antiWord].reset();
-                this._enemyHitArea = new createjs.Shape();
-                this._enemyHitArea.graphics.beginFill("#000").drawRect(0, 0, this._antiWords[antiWord].getMeasuredWidth(), this._antiWords[antiWord].height);
-                this._antiWords[antiWord].hitArea = this._enemyHitArea;
-                this.addChild(this._antiWords[antiWord]);
-                this._antiWords[antiWord].on("click", this._enemyClicked, this);
-                this._orderOfWords[antiWord + 1] = antiWord + 1;
-            }
+            this._getPositions();
+            //add box
+            this._box = new createjs.Bitmap(assets.loader.getResult("box"));
+            this._box.x = finalProject.boxXPosition;
+            this._box.y = finalProject.boxYPosition;
+            this.addChild(this._box);
+            this._boxLabel = new finalProject.Label(this._currentCategory, "30px Consolas", "#000000", finalProject.centerX, finalProject.boxYPosition + this._box.getBounds().height * 0.5, true);
+            this._boxLabel.regX = this._boxLabel.getBounds().width * 0.5;
+            this.addChild(this._boxLabel);
+            //add one friend and four enemy words to the scene
+            this._allWordsArray = new Array();
+            this._allWordsArray = [];
+            this._enemies = new Array();
+            this._enemies = [];
+            this._friends = new Array();
+            this._friends = [];
+            this._allWordsArray[this._takeThisPosition] = this._getFriend();
+            this.addChild(this._allWordsArray[this._takeThisPosition]);
+            this._takeThisPosition++;
+            this._allWordsArray[this._takeThisPosition] = this._getEnemy();
+            this.addChild(this._allWordsArray[this._takeThisPosition]);
+            this._takeThisPosition++;
+            this._enemyNumber++;
+            this._allWordsArray[this._takeThisPosition] = this._getEnemy();
+            this.addChild(this._allWordsArray[this._takeThisPosition]);
+            this._takeThisPosition++;
+            this._enemyNumber++;
+            this._allWordsArray[this._takeThisPosition] = this._getEnemy();
+            this.addChild(this._allWordsArray[this._takeThisPosition]);
+            this._takeThisPosition++;
+            this._enemyNumber++;
+            this._allWordsArray[this._takeThisPosition] = this._getEnemy();
+            this.addChild(this._allWordsArray[this._takeThisPosition]);
             //add all objects to the stage
             stage.addChild(this);
+            //instantiate scoreboard and collision classes
             scoreboard = new finalProject.Scoreboard;
             collision = new finalProject.Collision;
+            for (var x = 0; x < this._allWordsArray.length; x++) {
+                console.log(" text " + [x] + " " + this._allWordsArray[x].text);
+            }
+            this._nextTckerWord();
         };
-        Level1.prototype._nextTckerWord = function () {
-            var smallest = 0;
-            var largest = 4;
-            for (var w = 0; w < this._orderOfWords.length; w++) {
-                if (this._orderOfWords[w] == largest) {
-                    this._updateTickerWord(w);
-                    this._orderOfWords[w] = smallest;
-                }
-                else {
-                    this._orderOfWords[w] = this._orderOfWords[w] + 1;
-                }
-            }
-        };
-        Level1.prototype._updateTickerWord = function (wordToUpdate) {
-            if (wordToUpdate == 0) {
-                this._updateFriend();
-            }
-            else {
-                this._updateEnemy(wordToUpdate);
-            }
-        };
-        // click events
-        Level1.prototype._wordClicked = function (event) {
-            scoreboard.score += 100;
-            this._isEnemy = this._checkCategory(event.target.text);
-            //  this._removeWord(event.target.text);
-            this._updateFriend();
-        };
-        Level1.prototype._enemyClicked = function (event) {
-            scoreboard.lives--;
-            this._isEnemy = this._checkCategory(event.target.text);
-            // this._removeWord(event.target.text);
-            var wordNum;
-            switch (event.target.name) {
-                case "enemy1":
-                    wordNum = 1;
-                    break;
-                case "enemy2":
-                    wordNum = 2;
-                    break;
-                case "enemy3":
-                    wordNum = 3;
-                    break;
-                case "enemy4":
-                    wordNum = 4;
-                    break;
-            }
-            this._updateEnemy(wordNum);
-        };
-        Level1.prototype._updateFriend = function () {
-            this._getNextWord();
-            this._nextWordPosition = this._getNextPosition();
-            finalProject.positionsTaken[0] = this._nextWordPosition;
-            this._nextWordText = this._determineNextWord(true);
-            this._word.text = this._nextWordText;
-            this._word.y = finalProject.positionsAllY[finalProject.positionsTaken[0]] + 10;
-            this._word.x = finalProject.positionsAllX[finalProject.positionsTaken[0]];
-            this._word.width = this._word.getBounds().width;
-            this._word.height = 40;
-            this._word.regX = this._word.width * 0.5;
-        };
-        Level1.prototype._updateEnemy = function (num) {
-            this._getNextWord();
-            this._nextAntiWordPosition = this._getNextPosition();
-            var wordNum;
-            switch (num) {
-                case 1:
-                    wordNum = 0;
-                    finalProject.positionsTaken[1] = this._nextAntiWordPosition;
-                    break;
-                case 2:
-                    wordNum = 1;
-                    finalProject.positionsTaken[2] = this._nextAntiWordPosition;
-                    break;
-                case 3:
-                    wordNum = 2;
-                    finalProject.positionsTaken[3] = this._nextAntiWordPosition;
-                    break;
-                case 4:
-                    wordNum = 3;
-                    finalProject.positionsTaken[4] = this._nextAntiWordPosition;
-                    break;
-            }
-            this._nextAntiWordText = this._determineNextWord(false);
-            this._antiWords[wordNum].text = this._nextAntiWordText;
-            this._antiWords[wordNum].y = finalProject.positionsAllY[finalProject.positionsTaken[wordNum + 1]] + 10;
-            this._antiWords[wordNum].x = finalProject.positionsAllX[finalProject.positionsTaken[wordNum + 1]];
-            this._antiWords[wordNum].width = this._antiWords[wordNum].getBounds().width;
-            this._antiWords[wordNum].height = 40;
-            this._antiWords[wordNum].regX = this._antiWords[wordNum].width * 0.5;
-        };
-        Level1.prototype._removeWord = function (eventTarget) {
-            if (this._isEnemy == false) {
-                this._word.text = " ";
-            }
-            else {
-                for (var f = 0; f < this._antiWords.length; f++) {
-                    if (this._antiWords[f].text == eventTarget) {
-                        this._antiWords[f].text = " ";
-                    }
-                }
-            }
-        };
-        // randomly determine the next word - order of friend word is different every time
-        Level1.prototype._getNextWord = function () {
-            if (this._isFirstWord == true) {
-                this._isFirstWord = false;
-                this._enemyOrFriend = Math.floor(Math.random() * (1 - 0 + 1) + 0);
-                this._EorFArray[this._positionCounter] = this._enemyOrFriend;
-                this._positionCounter++;
-            }
-            else {
-                for (var s = 0; s < this._EorFArray.length && this._EorFArray.length <= 4; s++) {
-                    if (this._EorFArray[s] != this._nextEnemy) {
-                        this._friendExist = true;
-                        break;
-                    }
-                }
-                if (this._friendExist == true) {
-                    this._EorFArray[this._positionCounter] = 0;
-                    this._positionCounter++;
-                }
-                else if (this._EorFArray.length == 4 && this._friendExist == true) {
-                    this._EorFArray[this._positionCounter] = 1;
-                    this._positionCounter++;
-                }
-                else {
-                    this._enemyOrFriend = Math.floor(Math.random() * (1 - 0 + 1) + 0);
-                    this._EorFArray[this._positionCounter] = this._enemyOrFriend;
-                    this._positionCounter++;
-                }
-            }
-            if (this._EorFArray.length == 5) {
-                this._isFirstWord = true;
-                this._EorFArray = [];
-            }
-        };
-        //determines the next word
-        Level1.prototype._determineNextWord = function (friendWord) {
-            var nextWordText;
-            var nextWordItem;
-            //determine next collectible word (out of 10)
-            if (friendWord) {
-                nextWordItem = Math.floor(Math.random() * (10 - 0 + 0) + 0);
-                nextWordText = finalProject.currentCategory[nextWordItem]; // friend word
-            }
-            else {
-                //determine next antagonist word (out of 30)
-                nextWordItem = Math.floor(Math.random() * (30 - 0 + 0) + 0);
-                nextWordText = finalProject.antagonistWords[nextWordItem]; // antogonist words
-            }
-            return nextWordText;
-        };
-        //get next position
-        Level1.prototype._getNextPosition = function () {
-            var position;
-            var exists = true;
-            while (exists) {
-                exists = false;
-                position = Math.floor(Math.random() * (this._totalPositions - 0 + 0) + 0);
-                for (var x = 0; x <= finalProject.positionsTaken.length; x++) {
-                    if (finalProject.positionsTaken[x] == position) {
-                        exists = true;
-                        break;
-                    }
-                }
-                if (exists == false) {
-                    return position;
-                }
-            }
-        };
-        Level1.prototype._checkCategory = function (eventTarget) {
-            var isEnemy = true;
-            for (var d = 0; d < finalProject.currentCategory.length; d++) {
-                if (finalProject.currentCategory[d] == eventTarget) {
-                    isEnemy = false;
-                    break;
-                }
-            }
-            return isEnemy;
-        };
-        //creates list of x and their pair y values later used for positioning of the words
-        Level1.prototype._createArrays = function () {
-            //create array to hold positions of words
-            finalProject.positionsAllX = new Array();
-            finalProject.positionsAllY = new Array();
-            var positionInArray = 0;
-            for (var counterY = 0; counterY < this._yPositions; counterY++) {
-                for (var counterX = 0; counterX < this._xPositions; counterX++) {
-                    finalProject.positionsAllX[positionInArray] = this._positionX[counterX];
-                    finalProject.positionsAllY[positionInArray] = this._positionY;
-                    positionInArray++;
-                }
-                this._positionY += this._incrementYBy;
-            }
-        };
-        //private method
-        /*
-        private _checkIfExists(x: number): number {
-        //    console.log("this.nextItem " + this.nextItem );
-         //   console.log("this.wordOrder.length " + this.wordOrder.length);
-        //    console.log("this.wordOrder[0] " + this.wordOrder[0] );
-            while (this.wordOrder.length < 10) {
-                if (this.wordOrder.length == 1) {
-                    this.wordOrder[0] = this.nextItem;
-                } else {
-                    for (var i = 0; i <= this.wordOrder.length; i++) {
-                        console.log("this.wordOrder.length " + this.wordOrder.length);
-                        console.log("this.nextItem " + this.nextItem);
-                        console.log("this.wordOrder[i] " + this.wordOrder[i]);
-
-                        if (this.nextItem == this.wordOrder[i]) {
-                            this.numExists = true;
-                            break;
-                        } else {
-                            this.numExists = false;
-                            if (i == this.wordOrder.length) {
-                                this.wordOrder[i + 1] = this.nextItem;
-                            }
-                        }
-                    }
-
-                }
-
-            }
-            return this.nextItem;
-        }
-        */
         // creates a list of current positions taken by the  words - 5 words - 5 positions
         // this positions are then serve as a parameter for the two arrays that hold x and y positions
-        Level1.prototype._getInitialPositions = function () {
-            finalProject.positionsTaken = [];
-            this._itemInArray = Math.floor(Math.random() * (this._totalPositions - 0 + 0) + 0);
-            finalProject.positionsTaken[0] = this._itemInArray;
-            // console.log(" testing array " + finalProject.positionsTaken.length);
-            while (finalProject.positionsTaken.length != this._itemsInArray) {
-                this._numExists = false;
-                this._itemInArray = Math.floor(Math.random() * (this._totalPositions - 0 + 0) + 0);
-                for (var x = 0; x <= finalProject.positionsTaken.length; x++) {
-                    if (finalProject.positionsTaken[x] == this._itemInArray) {
-                        this._numExists = true;
-                        break;
-                    }
-                }
-                if (this._numExists == false) {
-                    finalProject.positionsTaken[finalProject.positionsTaken.length] = this._itemInArray;
-                }
-            }
-            this._isInitialPositions = false;
+        Level1.prototype._getPositions = function () {
+            finalProject.positionsTaken = []; //set array to empty
+            // populate array with random numbers
+            finalProject.positionsTaken = finalProject.randomNumberArray(this._totalPositions, this._itemsInArray);
+        };
+        // -----------------------------------  start initial methods ---------------------------------------------
+        Level1.prototype._getFriend = function () {
+            //add selected category finalProject
+            this._friends[this._wordNumber] = new finalProject.Word(true);
+            this._friends[this._wordNumber].text = finalProject.currentCategory[this._wordNumber];
+            this._friends[this._wordNumber].name = "friend";
+            this._friends[this._wordNumber].setPositionLevel1(finalProject.positionsTaken[this._takeThisPosition]);
+            this._friends[this._wordNumber].reset();
+            this._wordHitArea = new createjs.Shape();
+            this._wordHitArea.graphics.beginFill("#000").drawRect(0, 0, this._friends[this._wordNumber].getMeasuredWidth(), this._friends[this._wordNumber].height);
+            this._friends[this._wordNumber].hitArea = this._wordHitArea;
+            this._friends[this._wordNumber].on("click", this._wordClicked, this);
+            return this._friends[this._wordNumber];
+        };
+        Level1.prototype._getEnemy = function () {
+            //add enemy finalProject
+            var enemyName;
+            this._enemies[this._enemyNumber] = new finalProject.Word(false);
+            this._enemies[this._enemyNumber].text = finalProject.antagonistWords[this._enemyNumber];
+            this._enemies[this._enemyNumber].name = "enemy" + this._enemyNumber; //enemyName;
+            this._enemies[this._enemyNumber].setPositionLevel1(finalProject.positionsTaken[this._takeThisPosition]);
+            this._enemies[this._enemyNumber].reset();
+            this._enemyHitArea = new createjs.Shape();
+            this._enemyHitArea.graphics.beginFill("#000").drawRect(0, 0, this._enemies[this._enemyNumber].getMeasuredWidth(), this._enemies[this._enemyNumber].height);
+            this._enemies[this._enemyNumber].hitArea = this._enemyHitArea;
+            this._enemies[this._enemyNumber].on("click", this._wordClicked, this);
+            return this._enemies[this._enemyNumber];
         };
         //determine categories for collectible finalProject and the antagonist finalProject
         Level1.prototype._determineCategories = function () {
+            this._tempCatArray = new Array();
+            this._tempCatArray = [];
+            this._tempCatArray = finalProject.randomNumberArray(this._curCatArrayLength, this._curCatArrayLength);
+            this._tempEnemyArray = new Array();
+            this._tempEnemyArray = [];
+            this._tempEnemyArray = finalProject.randomNumberArray(this._enemyArrayLength, this._enemyArrayLength);
+            this._tempAntagonistWords = new Array();
+            this._tempAntagonistWords = [];
             if (wordCategory == "foodBtn") {
-                finalProject.currentCategory = finalProject.foodWords;
-                finalProject.antagonistWords = finalProject.furnitureWords;
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.clothesWords);
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.animalsWords);
+                this._currentCategory = "FOOD";
+                this._tempAntagonistWords = finalProject.furnitureWords;
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.clothesWords);
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.animalsWords);
+                // fill array with words of selected category
+                for (var x = 0; x < this._curCatArrayLength; x++) {
+                    finalProject.currentCategory[x] = finalProject.foodWords[this._tempCatArray[x]];
+                }
+                //fill array with enemy words
+                for (var x = 0; x < this._enemyArrayLength; x++) {
+                    finalProject.antagonistWords[x] = this._tempAntagonistWords[this._tempEnemyArray[x]];
+                }
             }
             else if (wordCategory == "furnitureBtn") {
-                finalProject.currentCategory = finalProject.furnitureWords;
-                finalProject.antagonistWords = finalProject.foodWords;
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.clothesWords);
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.animalsWords);
+                this._currentCategory = "FURNITURE";
+                this._tempAntagonistWords = finalProject.foodWords;
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.clothesWords);
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.animalsWords);
+                // fill array with words of selected category
+                for (var x = 0; x < this._curCatArrayLength; x++) {
+                    finalProject.currentCategory[x] = finalProject.foodWords[this._tempCatArray[x]];
+                }
+                //fill array with enemy words
+                for (var x = 0; x < this._enemyArrayLength; x++) {
+                    finalProject.antagonistWords[x] = this._tempAntagonistWords[this._tempEnemyArray[x]];
+                }
             }
             else if (wordCategory == "clothesBtn") {
-                finalProject.currentCategory = finalProject.clothesWords;
-                finalProject.antagonistWords = finalProject.furnitureWords;
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.foodWords);
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.animalsWords);
+                this._currentCategory = "CLOTHES";
+                this._tempAntagonistWords = finalProject.furnitureWords;
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.foodWords);
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.animalsWords);
+                // fill array with words of selected category
+                for (var x = 0; x < this._curCatArrayLength; x++) {
+                    finalProject.currentCategory[x] = finalProject.foodWords[this._tempCatArray[x]];
+                }
+                //fill array with enemy words
+                for (var x = 0; x < this._enemyArrayLength; x++) {
+                    finalProject.antagonistWords[x] = this._tempAntagonistWords[this._tempEnemyArray[x]];
+                }
             }
             else if (wordCategory == "animalsBtn") {
-                finalProject.currentCategory = finalProject.animalsWords;
-                finalProject.antagonistWords = finalProject.furnitureWords;
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.clothesWords);
-                Array.prototype.push.apply(finalProject.antagonistWords, finalProject.foodWords);
+                this._currentCategory = "ANIMALS";
+                this._tempAntagonistWords = finalProject.furnitureWords;
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.clothesWords);
+                Array.prototype.push.apply(this._tempAntagonistWords, finalProject.foodWords);
+                // fill array with words of selected category
+                for (var x = 0; x < this._curCatArrayLength; x++) {
+                    finalProject.currentCategory[x] = finalProject.foodWords[this._tempCatArray[x]];
+                }
+                //fill array with enemy words
+                for (var x = 0; x < this._enemyArrayLength; x++) {
+                    finalProject.antagonistWords[x] = this._tempAntagonistWords[this._tempEnemyArray[x]];
+                }
             }
         };
+        // -------------------------------------- end initial methods -------------------------------------------
+        // get next word --------------------------------------------------------------------------
+        // get next word randomly - called from update()
+        Level1.prototype._nextTckerWord = function () {
+            // decide whether next word is enemy or friend
+            this._friendOrEnemy = this._friendOrEnemyNext();
+            // console.log(" friend = 0; enemy = 1-3 ::: " + friendOrEnemy);
+            //get position for X and Y for new word that is not currently occupied
+            this._newposXY = this._getNewPosition();
+            console.log(" newposXY btw 0-14 " + this._newposXY);
+            //if (this._takeThisPosition == positionsTaken.length) {
+            //    this._takeThisPosition = 0;
+            //}            
+            //get position of next word to update
+            this._isWordMoving = false;
+            this._orderForNewWord();
+            //this._isWordMoving = this._allWordsArray[this._nextWordPos].getIsMoving();
+            //while (this._isWordMoving == true){
+            //   this._orderForNewWord();
+            //   this._isWordMoving = this._allWordsArray[this._nextWordPos].getIsMoving();
+            //}
+        };
+        Level1.prototype._friendOrEnemyNext = function () {
+            var nextWordInt = Math.floor(Math.random() * (3 - 0 + 1) + 0);
+            return nextWordInt;
+        };
+        Level1.prototype._getNewPosition = function () {
+            var numXY;
+            console.log("  positionsTaken " + finalProject.positionsTaken);
+            var newPosDetermined = false;
+            while (newPosDetermined == false) {
+                numXY = Math.floor(Math.random() * (this._totalPositions - 0 + 0) + 0); // random number between 0 and 14
+                for (var x = 0; x < finalProject.positionsTaken.length; x++) {
+                    if (numXY == finalProject.positionsTaken[x]) {
+                        console.log(" x x---- " + x);
+                        newPosDetermined = false;
+                        break;
+                    }
+                    else {
+                        newPosDetermined = true;
+                    }
+                }
+                if (newPosDetermined == true) {
+                    return numXY;
+                }
+            }
+        };
+        //decide which word to update
+        Level1.prototype._orderForNewWord = function () {
+            if (this._nextWordPos == this._allWordsArray.length - 1) {
+                this._nextWordPos = 0;
+                this._firstCall == true;
+            }
+            if (this._firstCall == true) {
+                this._firstCall = false;
+            }
+            else {
+                this._nextWordPos++;
+            }
+            console.log(" next position 0 " + this._nextWordPos);
+        };
+        Level1.prototype._addNewWord = function (friendOrEnemy, newposXY) {
+            delete finalProject.positionsTaken[this._nextWordPos];
+            finalProject.positionsTaken[this._nextWordPos] = newposXY;
+            this.removeChild(this._allWordsArray[this._nextWordPos]);
+            delete this._allWordsArray[this._nextWordPos];
+            if (friendOrEnemy == 0) {
+                this._allWordsArray[this._nextWordPos] = this._newFriend();
+            }
+            else {
+                this._allWordsArray[this._nextWordPos] = this._newEnemy();
+            }
+            this.addChild(this._allWordsArray[this._nextWordPos]);
+            for (var x = 0; x < this._allWordsArray.length; x++) {
+                console.log([x] + " = " + this._allWordsArray[x].text);
+            }
+            console.log(" word.length " + this._allWordsArray.length);
+            console.log(" 99999999999   newposXY " + newposXY);
+            console.log("  positionsTaken " + finalProject.positionsTaken);
+        };
+        //valid method
+        Level1.prototype._newFriend = function () {
+            this._wordNumber++;
+            this._friends[this._wordNumber] = new finalProject.Word(false);
+            //add selected category finalProject
+            this._enemies[this._wordNumber].text = finalProject.currentCategory[this._wordNumber];
+            this._enemies[this._wordNumber].name = "friend";
+            this._enemies[this._wordNumber].setPositionLevel1(finalProject.positionsTaken[this._nextWordPos]);
+            this._enemies[this._wordNumber].reset();
+            this._wordHitArea = new createjs.Shape();
+            this._wordHitArea.graphics.beginFill("#000").drawRect(0, 0, this._enemies[this._wordNumber].getMeasuredWidth(), this._enemies[this._wordNumber].height);
+            this._enemies[this._wordNumber].hitArea = this._wordHitArea;
+            this._enemies[this._wordNumber].on("click", this._wordClicked, this);
+            return this._enemies[this._wordNumber];
+        };
+        //valid method
+        Level1.prototype._newEnemy = function () {
+            this._enemyNumber++;
+            //add enemy finalProject
+            this._enemies[this._enemyNumber] = new finalProject.Word(false);
+            var enemyName;
+            this._enemies[this._enemyNumber].text = finalProject.antagonistWords[this._enemyNumber];
+            this._enemies[this._enemyNumber].name = "enemy" + this._enemyNumber; // enemyName;
+            this._enemies[this._enemyNumber].setPositionLevel1(finalProject.positionsTaken[this._nextWordPos]);
+            this._enemies[this._enemyNumber].reset();
+            this._enemyHitArea = new createjs.Shape();
+            this._enemyHitArea.graphics.beginFill("#000").drawRect(0, 0, this._enemies[this._enemyNumber].getMeasuredWidth(), this._enemies[this._enemyNumber].height);
+            this._enemies[this._enemyNumber].hitArea = this._enemyHitArea;
+            this._enemies[this._enemyNumber].on("click", this._wordClicked, this);
+            return this._enemies[this._enemyNumber];
+        };
+        // --------------------------------------- get next word  ------------------------------------
+        //private method
+        //private _checkCategory(eventTarget: string): boolean {
+        //    var isEnemy = true;
+        //    for (var d = 0; d < finalProject.currentCategory.length; d++) {
+        //        if (finalProject.currentCategory[d] == eventTarget) {
+        //            isEnemy = false;
+        //            break;
+        //        }
+        //    }
+        //    return isEnemy;
+        //}
+        // click events -----------------------------------------------------------------
+        Level1.prototype._wordClicked = function (event) {
+            for (var i = 0; i < this._allWordsArray.length; i++) {
+                if (this._allWordsArray[i].text == event.target.text) {
+                    this._allWordsArray[i].setIsMoving(true);
+                    this._allWordsArray[i].setUpdate(true);
+                    this._allWordsArray[i].setDY();
+                }
+            }
+        };
+        //--------------------------------------- end click events ----------------------
         Level1.prototype.update = function () {
+            // reset word
             this._tickLevel1++;
-            console.log(" tick level " + this._tickLevel1);
-            if (this._tickLevel1 == 250) {
-                this._tickLevel1 = 0;
-                this._nextTckerWord();
+            if (this._tickLevel1 == 500) {
+                console.log("counter " + this.counter);
+                if (this.counter < 10) {
+                    //add new word
+                    this._addNewWord(this._friendOrEnemy, this._newposXY);
+                    this._tickLevel1 = 0;
+                    this._nextTckerWord();
+                }
+                this.counter++;
             }
-            //update position
-            this._word.update();
-            for (var antiWord = 0; antiWord < finalProject.numOfAntiWords; antiWord++) {
-                this._antiWords[antiWord].update();
+            //check scoring
+            for (var i = 0; i < this._allWordsArray.length; i++) {
+                this._allWordsArray[i].update();
+                collision.checkLevel1(this._allWordsArray[i], this._box);
+                if (this._allWordsArray[i].isColliding == true) {
+                    this._allWordsArray[i].setUpdate(false);
+                    this._allWordsArray[i].setIsMoving(false);
+                    this._allWordsArray[i].text = " ";
+                }
             }
-            scoreboard.update(); // update score
+            // update score
+            scoreboard.update();
             //exit logic
             if (scoreboard.lives <= 0) {
                 outcome = 2;

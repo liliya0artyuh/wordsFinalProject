@@ -35,7 +35,6 @@ var finalProject;
         //private method
         //callback function that allows to respond to start button click events
         Instructions.prototype._playClicked = function (event) {
-            console.log("event.target " + event.target);
             createjs.Sound.play("soundtrack");
             if (currentLevel == finalProject.LEVEL1_STATE) {
                 //get the name of user
@@ -57,7 +56,6 @@ var finalProject;
                 else if (currentLevel == finalProject.LEVEL3_STATE) {
                     changeState(finalProject.LEVEL3_STATE);
                 }
-                console.log("category was selected");
             }
             else {
                 //display message to select a category

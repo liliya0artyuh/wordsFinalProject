@@ -15,7 +15,12 @@ var finalProject;
     finalProject.END_STATE = 5;
     finalProject.INSTRUCTIONS_STATE = 6;
     //
-    finalProject.winningNumber = 300;
+    finalProject.winningNumber = 100;
+    finalProject.boxYPosition = 404;
+    finalProject.boxXPosition = 304.5;
+    finalProject.boxWidth = 239;
+    finalProject.boxHeight = 96;
+    finalProject.numOfAntiWords = 5;
     finalProject.centerX = 424;
     finalProject.collectorWidth = 227;
     finalProject.collectorHeight = 103;

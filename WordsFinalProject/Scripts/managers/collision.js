@@ -29,23 +29,49 @@ var finalProject;
                         if (gameObject.name == "friend") {
                             scoreboard.score += 100;
                             console.log("gameObject.name == " + "friend");
-                            console.log("this._collectorX" + this._collectorX);
-                            console.log("this._wordX" + this._wordX);
-                            console.log("this._collectorY2" + this._collectorY2);
-                            console.log("this._collectorY1" + this._collectorY1);
-                            console.log("this._wordY2" + this._wordY2);
-                            console.log("this._wordY1" + this._wordY1);
-                            console.log("------------------------------------------");
                         }
-                        if (gameObject.name == "enemy1" || gameObject.name == "enemy2" || gameObject.name == "enemy3" || gameObject.name == "enemy4") {
+                        if (gameObject.name == "enemy" || gameObject.name == "enemy2" || gameObject.name == "enemy3" || gameObject.name == "enemy4") {
                             console.log("gameObject.name == " + "enemy");
-                            console.log("this._collectorX" + this._collectorX);
-                            console.log("this._wordX" + this._wordX);
-                            console.log("this._collectorY2" + this._collectorY2);
-                            console.log("this._collectorY1" + this._collectorY1);
-                            console.log("this._wordY2" + this._wordY2);
-                            console.log("this._wordY1" + this._wordY1);
-                            console.log("------------------------------------------");
+                            scoreboard.lives--;
+                        }
+                    }
+                    gameObject.isColliding = true;
+                }
+                else {
+                    gameObject.isColliding = false;
+                }
+            }
+            else {
+                gameObject.isColliding = false;
+            }
+        };
+        Collision.prototype.checkLevel1 = function (gameObject, gameMainObject) {
+            this._collectorY1 = finalProject.boxYPosition;
+            this._collectorX1 = finalProject.boxXPosition;
+            this._collectorX2 = this._collectorX1 + finalProject.boxWidth;
+            this._wordY1 = gameObject.y;
+            this._wordX1 = gameObject.x + (gameObject.getMeasuredWidth() * 0.5);
+            this._wordX2 = gameObject.x + gameObject.getMeasuredWidth();
+            if (this._wordY1 >= this._collectorY1) {
+                // console.log("word reached collector zone");
+                if (this._wordX1 >= this._collectorX1 && this._wordX1 <= this._collectorX2) {
+                    if (gameObject.isColliding == false) {
+                        console.log(" 333  collision!");
+                        //console.log("_collectorY1 " + this._collectorY1);
+                        //console.log(" _collectorX1 " + this._collectorX1);
+                        //console.log("_collectorX2 " + this._collectorX2);
+                        //console.log("_wordY1 " + this._wordY1);
+                        //console.log("_wordX1" + this._wordX1);
+                        //console.log("_wordX2 " + this._wordX2);
+                        //encrease points
+                        //add sound
+                        createjs.Sound.play(gameObject.sound);
+                        if (gameObject.name == "friend") {
+                            scoreboard.score += 100;
+                            console.log("gameObject.name == " + gameObject.name);
+                        }
+                        if (gameObject.name.search("enemy") >= 0) {
+                            console.log("gameObject.name == " + gameObject.name);
                             scoreboard.lives--;
                         }
                     }

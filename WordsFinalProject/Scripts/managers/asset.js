@@ -13,6 +13,7 @@ var finalProject;
             //manifest of all of the assets
             this._manifest = [
                 { id: "againButton", src: "../../Assets/images/againButton.png" },
+                { id: "box", src: "../../Assets/images/box.png" },
                 { id: "back", src: "../../Assets/images/back_long.png" },
                 { id: "backPaper", src: "../../Assets/images/paper.png" },
                 { id: "truck", src: "../../Assets/images/truck.png" },

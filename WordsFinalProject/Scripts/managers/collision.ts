@@ -15,6 +15,10 @@ module finalProject {
         private _collectorY2: number;
         private _wordY1: number;
         private _wordY2: number;
+        private _collectorX1: number;
+        private _collectorX2: number;
+        private _wordX1: number;
+        private _wordX2: number;
 
 
         private _p1: createjs.Point;
@@ -36,7 +40,7 @@ module finalProject {
             this._wordX = gameObject.x;
 
             if (this._wordX <= this._collectorX) {
-               // console.log("word reached collector zone");
+                // console.log("word reached collector zone");
                 if (this._wordY1 >= this._collectorY1 && this._wordY2 <= this._collectorY2) {
                     if (gameObject.isColliding == false) {
 
@@ -47,23 +51,9 @@ module finalProject {
                         if (gameObject.name == "friend") {
                             scoreboard.score += 100;
                             console.log("gameObject.name == " + "friend");
-                            console.log("this._collectorX" + this._collectorX);
-                            console.log("this._wordX" + this._wordX);
-                            console.log("this._collectorY2" + this._collectorY2);
-                            console.log("this._collectorY1" + this._collectorY1);
-                            console.log("this._wordY2" + this._wordY2);
-                            console.log("this._wordY1" + this._wordY1);
-                            console.log("------------------------------------------");
                         }
-                        if (gameObject.name == "enemy1" || gameObject.name == "enemy2" || gameObject.name == "enemy3" || gameObject.name == "enemy4") {
+                        if (gameObject.name == "enemy" || gameObject.name == "enemy2" || gameObject.name == "enemy3" || gameObject.name == "enemy4") {
                             console.log("gameObject.name == " + "enemy");
-                            console.log("this._collectorX" + this._collectorX);
-                            console.log("this._wordX" + this._wordX);
-                            console.log("this._collectorY2" + this._collectorY2);
-                            console.log("this._collectorY1" + this._collectorY1);
-                            console.log("this._wordY2" + this._wordY2);
-                            console.log("this._wordY1" + this._wordY1);
-                            console.log("------------------------------------------");
                             scoreboard.lives--;
                         }
                     }
@@ -75,9 +65,54 @@ module finalProject {
             } else {
                 gameObject.isColliding = false;
             }
-
-
         }
+
+
+        public checkLevel1(gameObject: any, gameMainObject: any) {
+            this._collectorY1 = finalProject.boxYPosition;
+            this._collectorX1 = finalProject.boxXPosition;
+            this._collectorX2 = this._collectorX1 + finalProject.boxWidth;
+            this._wordY1 = gameObject.y;
+            this._wordX1 = gameObject.x + (gameObject.getMeasuredWidth() *0.5);
+            this._wordX2 = gameObject.x + gameObject.getMeasuredWidth();
+
+
+            if (this._wordY1 >= this._collectorY1) {
+                // console.log("word reached collector zone");
+                if (this._wordX1 >= this._collectorX1 && this._wordX1 <= this._collectorX2) {
+                    if (gameObject.isColliding == false) {
+
+                        console.log(" 333  collision!");
+
+                        //console.log("_collectorY1 " + this._collectorY1);
+                        //console.log(" _collectorX1 " + this._collectorX1);
+                        //console.log("_collectorX2 " + this._collectorX2);
+                        //console.log("_wordY1 " + this._wordY1);
+                        //console.log("_wordX1" + this._wordX1);
+                        //console.log("_wordX2 " + this._wordX2);
+
+                        //encrease points
+                        //add sound
+                        createjs.Sound.play(gameObject.sound);
+                        if (gameObject.name == "friend") {
+                            scoreboard.score += 100;
+                            console.log("gameObject.name == " + gameObject.name);
+                        }
+                        if (gameObject.name.search("enemy") >= 0) {
+                            console.log("gameObject.name == " + gameObject.name);
+                            scoreboard.lives--;
+                        }
+                    }
+                            gameObject.isColliding = true;
+                        } else {
+                            gameObject.isColliding = false;
+                        }
+
+                    } else {
+                        gameObject.isColliding = false;
+                    }
+                }
+            
         /*
         //PUBLIC METHODS
         //check distance bettween truck and any other objects

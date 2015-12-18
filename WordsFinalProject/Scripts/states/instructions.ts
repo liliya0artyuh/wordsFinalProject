@@ -39,7 +39,6 @@
         //private method
         //callback function that allows to respond to start button click events
         private _playClicked(event: createjs.MouseEvent): void {
-            console.log("event.target " + event.target);
             createjs.Sound.play("soundtrack");
             if (currentLevel == finalProject.LEVEL1_STATE) {
                 //get the name of user
@@ -59,7 +58,6 @@
                 } else if (currentLevel == finalProject.LEVEL3_STATE) {
                     changeState(finalProject.LEVEL3_STATE);
                 } 
-                console.log("category was selected");
             } else {
                 //display message to select a category
                 console.log("didn't recognize that category was selected");
@@ -124,7 +122,6 @@
 
             //add background to the scene
             this.addChild(background);
-
 
             //display categories
             this._getDetails();

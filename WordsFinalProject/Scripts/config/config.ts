@@ -18,16 +18,20 @@ module finalProject {
 
 
     //
-    export var winningNumber = 300;
+    export var winningNumber = 100;
 
     //level 1 vars
     export var positionsTaken: Array<number>;
     export var positionsAllX: Array<number>;
     export var positionsAllY: Array<number>;
+    export var boxYPosition: number = 404;
+    export var boxXPosition: number = 304.5;
+    export var boxWidth: number = 239;
+    export var boxHeight: number = 96;
 
 
 
-    export var numOfAntiWords: number;
+    export var numOfAntiWords: number = 5;
     export var centerX: number = 424;
     export var collectorWidth: number = 227;
     export var collectorHeight: number = 103;

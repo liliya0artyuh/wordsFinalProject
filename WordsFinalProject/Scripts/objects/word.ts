@@ -19,25 +19,52 @@ module finalProject {
 
         //PRIVATE PROPERTIES
         public _name: string = "";
-        _dx: number = 1;
         //determines the next set of finalProject
         _currentWordItem: number = 0;
         _antiWordItem: number = 0;
         _currentWord: boolean;
         _positionLevel1: number;
+        _update: boolean = false;
+        _dy: number;
+        _dx: number;
+        _isMoving: boolean = false;
 
         //CONSTRUCTOR --------------------------------------------------
         constructor(curWord: boolean) {
             super("placeholder", "40px Consolas", "green");
-            //check if the word is enemy or hero
-            if (curWord) {
-                this._currentWord = true;//hero
-                this.sound = "wellDone";
-               // this.name = "hero";
-            } else {
-                this._currentWord = false;//enemy
-                this.sound = "oh";
-               // this.name = "enemy";
+
+                      switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    super("placeholder", "40px Consolas", "green");
+                    //check if the word is enemy or hero
+                    if (curWord) {
+                        this._currentWord = true;//hero
+                        this.sound = "wellDone";
+                        // this.name = "hero";
+                    } else {
+                        this._currentWord = false;//enemy
+                        this.sound = "oh";
+                        // this.name = "enemy";
+                    }
+                    break;
+
+                case finalProject.LEVEL2_STATE:
+                    super("placeholder", "40px Consolas", "green");
+                    //check if the word is enemy or hero
+                    if (curWord) {
+                        this._currentWord = true;//hero
+                        this.sound = "wellDone";
+                         this.name = "friend";
+                    } else {
+                        this._currentWord = false;//enemy
+                        this.sound = "oh";
+                         this.name = "enemy";
+                    }
+                    this.reset();
+                    break;
+
+                case finalProject.LEVEL3_STATE:
+                    break;
             }
         }
 
@@ -48,7 +75,54 @@ module finalProject {
         public getPositionLevel1(): number {
             return this._positionLevel1;
         }
+
+        public setDX(dx: number) {
+            this._dx = dx;
+        }
+
+        public getDX(): number {
+            return this._dx;
+        }
+
+        public setDY() {
+            if ((this.x - finalProject.centerX) == 0) {
+                this._dy = 1;
+                this._dx = 0;
+            } else {
+                this._dy = (this.y - finalProject.boxYPosition) / (this.x - finalProject.centerX); // + this.getBounds().width * 0.5
+            }
+
+            // console.log(" h = " + this.height);
+            if (this.x == 141.5 || this.x == 283 ) {
+                this._dx = 1;
+            } else if (this.x == 424) {
+                this._dx = 0;
+            }else {
+                this._dx = -1;
+            }
+            this._dx = this._dx * 2;
+            this._dy = this._dy * 2;
+        }
+
+        public getDY(): number {
+            return this._dy;
+        }
         
+        public setUpdate(update: boolean) {
+            this._update = update;
+        }
+
+        public getUpdate(): boolean {
+            return this._update;
+        }
+
+        public setIsMoving(moving: boolean) {
+            this._isMoving = moving;
+        }
+
+        public getIsMoving(): boolean {
+            return this._isMoving;
+        }
 
         public setName(name: string) {
             this._name = name;
@@ -80,13 +154,24 @@ module finalProject {
         //PUBLIC METHODS ---------------------------------------------------------
         //resets the text of of the word and its positions
         public reset(): void {
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+
+                    break;
+
+                case finalProject.LEVEL2_STATE:
             this._determineNextWord();
             if (this._currentWord) {
                 this.text = finalProject.currentCategory[this._currentWordItem];
             } else {
-                // for (var antiWord = 0; antiWord < config.numOfAntiWords; antiWord++) {
+                for (var antiWord = 0; antiWord < finalProject.numOfAntiWords; antiWord++) {
                 this.text = finalProject.antagonistWords[this._antiWordItem];// antogonist finalProject
-                //   }
+                   }
+            }
+                    break;
+
+                case finalProject.LEVEL3_STATE:
+                    break;
             }
             this._positionWord();
 
@@ -95,17 +180,17 @@ module finalProject {
         private _positionWord() {
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
-                    this.y = finalProject.positionsAllY[finalProject.positionsTaken[this._positionLevel1]]+10;
-                   // console.log("1. y position = " + finalProject.positionsTaken[this._positionLevel1]);
-                   // console.log("2. y position = " + finalProject.positionsAllY[finalProject.positionsTaken[this._positionLevel1]]);
-                  ////  console.log("y = " + finalProject.positionsAllY[finalProject.positionsTaken[this._positionLevel1]]);
-                    this.x = finalProject.positionsAllX[finalProject.positionsTaken[this._positionLevel1]];
+                    this.y = finalProject.positionsAllY[this._positionLevel1] + 10;//finalProject.positionsTaken[this._positionLevel1]]+10;
+                    // console.log("1. y position = " + finalProject.positionsTaken[this._positionLevel1]);
+                    // console.log("2. y position = " + finalProject.positionsAllY[finalProject.positionsTaken[this._positionLevel1]]);
+                    ////  console.log("y = " + finalProject.positionsAllY[finalProject.positionsTaken[this._positionLevel1]]);
+                    this.x = finalProject.positionsAllX[this._positionLevel1];//finalProject.positionsTaken[this._positionLevel1]];
                  //   console.log(" x = " + finalProject.positionsAllX[finalProject.positionsTaken[this._positionLevel1]]);
                     this.width = this.getBounds().width;
                     this.height = 40;
                     this.regX = this.width * 0.5;
                    // console.log(" w = " + this.width);
-                   // console.log(" h = " + this.height);
+                 
                     break;
 
                 case finalProject.LEVEL2_STATE:
@@ -135,7 +220,10 @@ module finalProject {
         public update(): void {
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
-
+                    if (this._update == true) {
+                        this.x += this._dx;
+                        this.y += Math.abs(this._dy);
+                    }
                     break;
                 case finalProject.LEVEL2_STATE:
                     this.x -= this._dx;

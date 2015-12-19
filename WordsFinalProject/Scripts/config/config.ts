@@ -36,4 +36,8 @@ module finalProject {
     export var collectorWidth: number = 227;
     export var collectorHeight: number = 103;
     export var wordHeight: number = 40;
+
+    // level 2
+    export var numOfAntiWords2: number = 15;
+
 }

@@ -25,5 +25,7 @@ var finalProject;
     finalProject.collectorWidth = 227;
     finalProject.collectorHeight = 103;
     finalProject.wordHeight = 40;
+    // level 2
+    finalProject.numOfAntiWords2 = 15;
 })(finalProject || (finalProject = {}));
 //# sourceMappingURL=config.js.map

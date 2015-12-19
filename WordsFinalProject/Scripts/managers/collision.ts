@@ -67,6 +67,50 @@ module finalProject {
             }
         }
 
+        public checkLevel2(y: number, gameObject: finalProject.Word, gameMainObject: finalProject.Bullet) {
+            this._collectorY1 = gameMainObject.y;
+            this._collectorX1 = gameMainObject.x + gameMainObject.width * 0.5;
+            this._wordY1 = y;
+            this._wordX1 = gameObject.x;
+            this._wordX2 = this._wordX1 + gameObject.getBounds().width;
+
+            if (this._wordY1 >= (this._collectorY1 + 5)) {
+                // console.log("word reached collector zone");
+                if (this._collectorX1 >= this._wordX1 && this._collectorX1 <= this._wordX2) {
+                    if (gameObject.isColliding == false) {
+                        gameMainObject.visible = false;
+                        gameMainObject._dy = 0;
+                        gameObject.visible = false;
+                        console.log("collision!");
+                        console.log("------------------");
+                        console.log("  this._collectorY1 " + this._collectorY1);
+                        console.log("  this._collectorX1 " + this._collectorX1);
+                        console.log("  this._wordY1 " + this._wordY1);
+                        console.log("  this._wordX1 " + this._wordX1);
+                        console.log("  this._wordX2 " + this._wordX2);
+                        console.log("------------------");
+
+                        //encrease points
+                        //add sound
+                        createjs.Sound.play(gameObject.sound);
+                        if (gameObject.name == "friend") {
+                            scoreboard.score += 100;
+                        //    console.log("gameObject.name == " + "friend");
+                        }
+                        if (gameObject.name == "enemy" || gameObject.name == "enemy2" || gameObject.name == "enemy3" || gameObject.name == "enemy4") {
+                           // console.log("gameObject.name == " + "enemy");
+                            scoreboard.lives--;
+                        }
+                    }
+                    gameObject.isColliding = true;
+                } else {
+                    gameObject.isColliding = false;
+                }
+
+            } else {
+                gameObject.isColliding = false;
+            }
+        }
 
         public checkLevel1(gameObject: any, gameMainObject: any) {
             this._collectorY1 = finalProject.boxYPosition;
@@ -75,22 +119,17 @@ module finalProject {
             this._wordY1 = gameObject.y;
             this._wordX1 = gameObject.x + (gameObject.getMeasuredWidth() *0.5);
             this._wordX2 = gameObject.x + gameObject.getMeasuredWidth();
-
-
             if (this._wordY1 >= this._collectorY1) {
                 // console.log("word reached collector zone");
                 if (this._wordX1 >= this._collectorX1 && this._wordX1 <= this._collectorX2) {
                     if (gameObject.isColliding == false) {
-
                         console.log(" 333  collision!");
-
                         //console.log("_collectorY1 " + this._collectorY1);
                         //console.log(" _collectorX1 " + this._collectorX1);
                         //console.log("_collectorX2 " + this._collectorX2);
                         //console.log("_wordY1 " + this._wordY1);
                         //console.log("_wordX1" + this._wordX1);
                         //console.log("_wordX2 " + this._wordX2);
-
                         //encrease points
                         //add sound
                         createjs.Sound.play(gameObject.sound);

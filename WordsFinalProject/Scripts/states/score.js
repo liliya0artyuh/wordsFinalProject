@@ -57,15 +57,27 @@ var finalProject;
         };
         //public methods
         Score.prototype.start = function () {
-            this.addChild(background);
+            this._background = new finalProject.Background("back_vert", false);
+            this.addChild(this._background);
             scoreboard.reset();
             //add a logo
             this._logo = new createjs.Bitmap(assets.loader.getResult("logo"));
             this._logo.x = finalProject.centerX - (146 * 0.5); //position logo in the center of x axis
             this._logo.y = 30; //position logo at 30 below top (alog y axis)
             this.addChild(this._logo);
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    this._pointInScore = 0;
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this._pointInScore = 1;
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    this._pointInScore = 2;
+                    break;
+            }
             //add final score label
-            this._finalScore = new finalProject.Label("collected words: " + numOfCollectedWords + "\n\nlost lives: " + numOfLivesLost, "20px Consolas", "#FFF000", finalProject.centerX, 200, true);
+            this._finalScore = new finalProject.Label("collected words: " + numOfCollectedWords[this._pointInScore] + "\n\nlost lives: " + numOfLivesLost[this._pointInScore], "20px Consolas", "#FFF000", finalProject.centerX, 200, true);
             this.addChild(this._finalScore);
             //add end label
             switch (currentLevel) {

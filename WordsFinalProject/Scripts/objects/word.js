@@ -25,9 +25,9 @@ var finalProject;
             this._antiWordItem = 0;
             this._update = false;
             this._isMoving = false;
+            this._dy = 0.5;
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
-                    _super.call(this, "placeholder", "40px Consolas", "green");
                     //check if the word is enemy or hero
                     if (curWord) {
                         this._currentWord = true; //hero
@@ -39,7 +39,7 @@ var finalProject;
                     }
                     break;
                 case finalProject.LEVEL2_STATE:
-                    _super.call(this, "placeholder", "40px Consolas", "green");
+                    this._dy = 0.5;
                     //check if the word is enemy or hero
                     if (curWord) {
                         this._currentWord = true; //hero
@@ -51,7 +51,6 @@ var finalProject;
                         this.sound = "oh";
                         this.name = "enemy";
                     }
-                    this.reset();
                     break;
                 case finalProject.LEVEL3_STATE:
                     break;
@@ -125,9 +124,25 @@ var finalProject;
         };
         //checks if word left the screen and if so calls functions to reset word to new word
         Word.prototype._checkBounds = function () {
-            //check if word has left the screen
-            if (this.x < 0) {
-                this.reset();
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    //check if word has left the screen
+                    if (this.x < 0) {
+                        this.reset();
+                    }
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    //check if word has left the screen
+                    if (this.y > 450) {
+                        this.reset();
+                    }
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    //check if word has left the screen
+                    if (this.x < 0) {
+                        this.reset();
+                    }
+                    break;
             }
         };
         //PUBLIC METHODS ---------------------------------------------------------
@@ -138,7 +153,6 @@ var finalProject;
                     break;
                 case finalProject.LEVEL2_STATE:
                     this._determineNextWord();
-                    this._determineNextWord();
                     if (this._currentWord) {
                         this.text = finalProject.currentCategory[this._currentWordItem];
                     }
@@ -146,11 +160,12 @@ var finalProject;
                         // for (var antiWord = 0; antiWord < config.numOfAntiWords; antiWord++) {
                         this.text = finalProject.antagonistWords[this._antiWordItem]; // antogonist words
                     }
-                    this._dx = (Math.random() * (1.5 - 0.5 + 0.5) + 0.5); //sets random speed between 1 and 2
-                    this.y = Math.floor(Math.random() * (450 - 50 + 50) + 50); // start word at random location
-                    this.x = 848;
-                    this.width = this.getBounds().width;
-                    this.height = this.getBounds().height;
+                    //this._dy = 0.5;//(Math.random() * (1 - 0.1 + 0.1) + 0.1);//sets random speed between 1 and 2
+                    ////this.y = Math.floor(Math.random() * (-450 + 50 - 50) + (-50));// start word at random location
+                    //this.y = finalProject.positionsAllY[(Math.floor(Math.random() * (14 - 0 + 0) + 0))];
+                    //this.x = finalProject.positionsAllX[(Math.floor(Math.random() * (14 - 0 + 0) + 0))];
+                    //this.width = this.getBounds().width;
+                    //this.height = this.getBounds().height;
                     break;
                 case finalProject.LEVEL3_STATE:
                     break;
@@ -172,9 +187,20 @@ var finalProject;
                     // console.log(" w = " + this.width);
                     break;
                 case finalProject.LEVEL2_STATE:
+                    this.y = finalProject.positionsAllY[this._positionLevel1] + 10;
+                    //console.log("this.y = "+ this.y);
+                    this.x = finalProject.positionsAllX[this._positionLevel1];
+                    //  console.log("this.x = " +this.x);
+                    this._dy = 0.5; //(Math.random() * (1 - 0.1 + 0.1) + 0.1);//sets random speed between 1 and 2
+                    //  this.y = -50; //Math.floor(Math.random() * (400 - 50 + 50) + 50);// start word at random location
+                    //  this.x = finalProject.positionsAllX[(Math.floor(Math.random() * (14 - 0 + 0) + 0))];
+                    this.width = this.getBounds().width;
+                    this.height = this.getBounds().height;
+                    //console.log(" w = " + this.width);
+                    //console.log(" h = " + this.height);
                     break;
                 case finalProject.LEVEL3_STATE:
-                    this._dx = (Math.random() * (1.5 - 0.5 + 0.5) + 0.5); //sets random speed between 1 and 2
+                    this._dx = (Math.random() * (1 - 0.1 + 0.1) + 0.1); //sets random speed between 1 and 2
                     this.y = Math.floor(Math.random() * (400 - 50 + 50) + 50); // start word at random location
                     this.x = 848;
                     this.width = this.getBounds().width;
@@ -194,6 +220,7 @@ var finalProject;
                     break;
                 case finalProject.LEVEL2_STATE:
                     this.y += this._dy;
+                    console.log("hlevel 2 update ");
                     this._checkBounds();
                     break;
                 case finalProject.LEVEL3_STATE:

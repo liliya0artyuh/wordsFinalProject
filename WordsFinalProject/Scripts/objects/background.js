@@ -18,7 +18,7 @@ var finalProject;
         function Background(imageString, num) {
             _super.call(this, assets.loader.getResult(imageString));
             this._dx = 1;
-            this._dy = 1;
+            this._dy = 0.5;
             this._firstScreen = false;
             this._firstScreen = num;
             if (this._firstScreen) {
@@ -29,6 +29,8 @@ var finalProject;
             }
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
+                    this.x = 0; // start Background - x value
+                    this.y = 0;
                     break;
                 case finalProject.LEVEL2_STATE:
                     //  this.width = this.getBounds().width;

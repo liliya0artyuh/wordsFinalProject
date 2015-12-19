@@ -45,6 +45,48 @@ var finalProject;
                 gameObject.isColliding = false;
             }
         };
+        Collision.prototype.checkLevel2 = function (y, gameObject, gameMainObject) {
+            this._collectorY1 = gameMainObject.y;
+            this._collectorX1 = gameMainObject.x + gameMainObject.width * 0.5;
+            this._wordY1 = y;
+            this._wordX1 = gameObject.x;
+            this._wordX2 = this._wordX1 + gameObject.getBounds().width;
+            if (this._wordY1 >= (this._collectorY1 + 5)) {
+                // console.log("word reached collector zone");
+                if (this._collectorX1 >= this._wordX1 && this._collectorX1 <= this._wordX2) {
+                    if (gameObject.isColliding == false) {
+                        gameMainObject.visible = false;
+                        gameMainObject._dy = 0;
+                        gameObject.visible = false;
+                        console.log("collision!");
+                        console.log("------------------");
+                        console.log("  this._collectorY1 " + this._collectorY1);
+                        console.log("  this._collectorX1 " + this._collectorX1);
+                        console.log("  this._wordY1 " + this._wordY1);
+                        console.log("  this._wordX1 " + this._wordX1);
+                        console.log("  this._wordX2 " + this._wordX2);
+                        console.log("------------------");
+                        //encrease points
+                        //add sound
+                        createjs.Sound.play(gameObject.sound);
+                        if (gameObject.name == "friend") {
+                            scoreboard.score += 100;
+                        }
+                        if (gameObject.name == "enemy" || gameObject.name == "enemy2" || gameObject.name == "enemy3" || gameObject.name == "enemy4") {
+                            // console.log("gameObject.name == " + "enemy");
+                            scoreboard.lives--;
+                        }
+                    }
+                    gameObject.isColliding = true;
+                }
+                else {
+                    gameObject.isColliding = false;
+                }
+            }
+            else {
+                gameObject.isColliding = false;
+            }
+        };
         Collision.prototype.checkLevel1 = function (gameObject, gameMainObject) {
             this._collectorY1 = finalProject.boxYPosition;
             this._collectorX1 = finalProject.boxXPosition;

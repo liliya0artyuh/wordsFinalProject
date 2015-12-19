@@ -22,6 +22,8 @@ module finalProject {
         _won: boolean;
         _finalScore: finalProject.Label;
         _endLabelText: string;
+        _background: finalProject.Background;
+        _pointInScore: number;
 
         //constructor
         constructor(finalOutcome: number) {
@@ -70,7 +72,8 @@ module finalProject {
 
         //public methods
         public start(): void {
-            this.addChild(background);
+            this._background = new finalProject.Background("back_vert", false);
+            this.addChild(this._background);
 
             scoreboard.reset();
 
@@ -81,10 +84,20 @@ module finalProject {
             this.addChild(this._logo);
 
           
-
+            switch (currentLevel) {
+                case finalProject.LEVEL1_STATE:
+                    this._pointInScore = 0;
+                    break;
+                case finalProject.LEVEL2_STATE:
+                    this._pointInScore = 1;
+                    break;
+                case finalProject.LEVEL3_STATE:
+                    this._pointInScore = 2;
+                    break;
+            }
 
             //add final score label
-            this._finalScore = new finalProject.Label("collected words: " + numOfCollectedWords + "\n\nlost lives: " + numOfLivesLost, "20px Consolas", "#FFF000", finalProject.centerX, 200, true);
+            this._finalScore = new finalProject.Label("collected words: " + numOfCollectedWords[this._pointInScore] + "\n\nlost lives: " + numOfLivesLost[this._pointInScore], "20px Consolas", "#FFF000", finalProject.centerX, 200, true);
             this.addChild(this._finalScore);
 
               //add end label

@@ -14,7 +14,7 @@ module finalProject {
         width: number;
         height: number;
         _dx: number = 1;
-        _dy: number = 1;
+        _dy: number = 0.5;
         _firstScreen: boolean = false;
 
 
@@ -30,6 +30,8 @@ module finalProject {
             }
             switch (currentLevel) {
                 case finalProject.LEVEL1_STATE:
+                    this.x = 0;// start Background - x value
+                    this.y = 0;
                     break;
                 case finalProject.LEVEL2_STATE:
                     //  this.width = this.getBounds().width;
